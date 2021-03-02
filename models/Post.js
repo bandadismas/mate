@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 const slug = require('slug');
 
-const Schema = mongoose.Schema;
 
-const PostSchema = new Schema({
+const PostSchema = mongoose.Schema({
     slug: {type: String, lowercase: true, unique: true},
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     body: String,
@@ -20,7 +19,7 @@ PostSchema.pre('save', async (next) => {
     next();
   });
   
-  PostSchema.methods.slugify = () => {
+PostSchema.methods.slugify = () => {
     this.slug = slug(this.body[7]) + '-' + (Math.random() * Math.pow(36, 6) | 0).toString(36);
   };
 
