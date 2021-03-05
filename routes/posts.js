@@ -15,9 +15,9 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/create-post", auth, async (req, res) => {
-    const post = req.body;
+    const {body} = req.body;
 
-    const newPost = new postModel({ ...post, author: req.userId })
+    const newPost = new postModel({ body, author: req.userId })
 
     try {
         await newPost.save();
