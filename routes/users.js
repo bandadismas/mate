@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const userModel = require('../models/User');
 
-const secret = "SECRET";
+const secret = "SECRET"; 
 
 router.post("/signup", async (req, res) => {
     const {email, password} = req.body;

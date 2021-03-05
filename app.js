@@ -15,12 +15,14 @@ if(isProduction){
 }
 
 const userRoutes = require('./routes/users');
+const postRoutes = require('./routes/posts');
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', userRoutes);
+app.use('/', postRoutes);
 
 // Handle errors.
 app.use(function(err, req, res, next) {

@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-const secret = 'test';
+const secret = 'SECRET';
 
 const auth = async (req, res, next) => {
   try {
@@ -13,7 +13,8 @@ const auth = async (req, res, next) => {
  
     next();
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: "Unauthorized" });
+    console.log("Invalid token");
   }
 };
 
