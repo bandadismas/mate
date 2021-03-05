@@ -14,7 +14,23 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.post("/create-post", auth, async (req, res) => {
+router.get("/getPost/:id", async (req, res) => {
+    const id = req.params.id;
+    console.log('got id')
+    console.log(id);
+
+    try {
+        const post = await postModel.findById(id);
+        console.log('got post')
+
+        console.log('sending response now')   
+        res.status(200).json(post);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+});
+
+router.post("/createPost", auth, async (req, res) => {
     const {body} = req.body;
 
     const newPost = new postModel({ body, author: req.userId })
