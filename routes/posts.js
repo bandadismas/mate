@@ -90,7 +90,7 @@ router.patch("/likePost/:id", auth, async (req, res) => {
           post.likes.push(req.userId);
 
           if (dislikeIndex !== -1) {
-            post.dislikes.filter((id) => id !== String(req.userId));
+            post.dislikes = post.dislikes.filter((id) => id !== String(req.userId));
           }
         } else {
           post.likes = post.likes.filter((id) => id !== String(req.userId));
@@ -102,6 +102,37 @@ router.patch("/likePost/:id", auth, async (req, res) => {
     }
 });
 
+router.patch("/dislikePost/:id", auth, async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        if (!req.userId) {
+            return res.json({ message: "Unauthenticated" });
+          }
+    
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message:`No post with id: ${id}`});
+        
+        const post = await postModel.findById(id);
+    
+        const likeIndex = post.likes.findIndex((id) => id ===String(req.userId));
+        const dislikeIndex = post.dislikes.findIndex((id) => id ===String(req.userId));
+        
+    
+        if (dislikeIndex === -1) {
+          post.dislikes.push(req.userId);
+
+          if (likeIndex !== -1) {
+            post.likes = post.likes.filter((id) => id !== String(req.userId));
+          }
+        } else {
+          post.dislikes = post.dislikes.filter((id) => id !== String(req.userId));
+        }
+        const updatedPost = await postModel.findByIdAndUpdate(id, post, { new: true });
+        res.status(200).json(updatedPost);
+    } catch (error) {
+        res.status(409).json({ message: error.message });
+    }
+});
 
 
 module.exports = router;
