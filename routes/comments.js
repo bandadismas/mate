@@ -1,47 +1,31 @@
 const router = require('express').Router();
 const mongoose = require('mongoose');
 
-
 const postModel = require('../models/Post');
+const commentModel = require('../models/Comment');
 const auth = require("../auth/auth");
 
-router.get("/", async (req, res) => { 
-    try {
-        const posts = await postModel.find();
-                
-        res.status(200).json(posts);
-    } catch (error) {
-        res.status(404).json({ message: error.message });
-    }
-});
-
-router.get("/getPost/:id", async (req, res) => {
+router.post("/comment/:id", auth, async (req, res) => {
     const id = req.params.id;
-
-    try {
-        const post = await postModel.findById(id);
-          
-        res.status(200).json(post);
-    } catch (error) {
-        res.status(404).json({ message: error.message });
-    }
-});
-
-router.post("/createPost", auth, async (req, res) => {
     const {body} = req.body;
 
-    const newPost = new postModel({ body, author: req.userId })
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message:`No post with id: ${id}`});
 
+    const newComment = new commentModel({ body, author: req.userId, post: id })
     try {
-        await newPost.save();
+        await newComment.save();
 
-        res.status(201).json(newPost);
+        const post = await postModel.findById(id);
+        post.comments.push(newComment._id);
+        post.save()
+
+        res.status(201).json(newComment);
     } catch (error) {
         res.status(409).json({ message: error.message });
     }
 });
 
-router.patch("/editPost/:id", auth, async (req, res) => {
+router.patch("/editComment/:id", auth, async (req, res) => {
     const id = req.params.id;
     const {body} = req.body;
     
@@ -133,6 +117,5 @@ router.patch("/dislikePost/:id", auth, async (req, res) => {
         res.status(409).json({ message: error.message });
     }
 });
-
 
 module.exports = router;

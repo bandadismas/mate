@@ -16,6 +16,7 @@ if(isProduction){
 
 const userRoutes = require('./routes/users');
 const postRoutes = require('./routes/posts');
+const commentRoutes = require('./routes/comments');
 
 const app = express();
 
@@ -23,6 +24,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', userRoutes);
 app.use('/', postRoutes);
+app.use('/', commentRoutes);
+
 
 // Handle errors.
 app.use(function(err, req, res, next) {
