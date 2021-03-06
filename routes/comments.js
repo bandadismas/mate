@@ -86,6 +86,36 @@ router.patch("/likeComment/:id", auth, async (req, res) => {
     }
 });
 
+router.patch("/dislikeComment/:id", auth, async (req, res) => {
+    const id = req.params.id;
 
+    try {
+        if (!req.userId) {
+            return res.json({ message: "Unauthenticated" });
+          }
+    
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message:`No post with id: ${id}`});
+        
+        const comment = await commentModel.findById(id);
+    
+        const likeIndex = comment.likes.findIndex((id) => id ===String(req.userId));
+        const dislikeIndex = comment.dislikes.findIndex((id) => id ===String(req.userId));
+        
+    
+        if (dislikeIndex === -1) {
+          comment.dislikes.push(req.userId);
+
+          if (likeIndex !== -1) {
+            comment.likes = comment.likes.filter((id) => id !== String(req.userId));
+          }
+        } else {
+          comment.dislikes = comment.dislikes.filter((id) => id !== String(req.userId));
+        }
+        const updatedComment = await commentModel.findByIdAndUpdate(id, comment, { new: true });
+        res.status(200).json(updatedComment);
+    } catch (error) {
+        res.status(409).json({ message: error.message });
+    }
+});
 
 module.exports = router;
