@@ -6,7 +6,6 @@ const UserDetailsSchema = mongoose.Schema({
     firstName: String,
     middleName: String,
     lastName: String,
-    dateOfBirth: String,
     city: String,
     country: String
 }, {timestamps: true});

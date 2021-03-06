@@ -1,9 +1,11 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 const userModel = require('../models/User');
-
+const userDetailsModel = require('../models/UserDetails');
+const auth = require("../auth/auth");
 const secret = "SECRET"; 
 
 router.post("/signup", async (req, res) => {
@@ -45,6 +47,23 @@ router.post("/login", async (req, res) => {
         res.status(200).json({ result: user, token });
     } catch (err) {
         res.status(500).json({ message: "Something went wrong" });
+    }
+});
+
+router.post("/userDetails/", auth, async (req, res) => {
+    const {firstName, middleName, lastName, city, country} = req.body;
+
+    try {
+        const newDetails = await userDetailsModel.create({user: req.userId ,
+                                                          firstName: firstName, 
+                                                          middleName: middleName,
+                                                          lastName: lastName,
+                                                          city: city,
+                                                          country:country});
+
+        res.status(201).json(newDetails);
+    } catch (error) {
+        res.status(409).json({ message: error.message });
     }
 });
 
