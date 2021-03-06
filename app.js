@@ -12,6 +12,7 @@ if(isProduction){
     useUnifiedTopology: true,
   });
     mongoose.set("useCreateIndex", true);
+    mongoose.set('useFindAndModify', false);
 }
 
 const userRoutes = require('./routes/users');

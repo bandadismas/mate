@@ -40,23 +40,15 @@ router.patch("/editComment/:id", auth, async (req, res) => {
     }
 });
 
-router.delete("/deleteComment/:id/:postId", auth, async (req, res) => {
-    const commentId = req.params.id;
-    const postId = req.params.postId;
-
+router.delete("/deleteComment/:id", auth, async (req, res) => {
+    const id = req.params.id;
 
     try{
-        if (!mongoose.Types.ObjectId.isValid(commentId)) return res.status(404).json({message:`No post with id: ${id}`});
-        if (!mongoose.Types.ObjectId.isValid(postId)) return res.status(404).json({message:`No post with id: ${id}`});
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message:`No post with id: ${id}`});
+    
+        await commentModel.findByIdAndRemove(id);
 
-
-        await commentModel.findByIdAndRemove(commentId);
-
-        const post = await postModel.findById(postId);
-        post.comments.filter((id) => id !== String(commentId));
-        await postModel.findByIdAndUpdate(postId, post);
-
-        res.json({ message: "Comment deleted successfully." });
+        res.json({Message: "Comment deleted successfully"});
     } catch (error) {
         res.status(409).json({ message: error.message });
     }
