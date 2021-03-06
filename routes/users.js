@@ -67,4 +67,14 @@ router.post("/userDetails/", auth, async (req, res) => {
     }
 });
 
+router.get("/userDetails/", auth, async (req, res) => {
+    try {
+        const userDetails = await userDetailsModel.find((user) => user === req.userId);
+
+        res.status(201).json(userDetails);
+    } catch (error) {
+        res.status(409).json({ message: error.message });
+    }
+});
+
 module.exports = router;
