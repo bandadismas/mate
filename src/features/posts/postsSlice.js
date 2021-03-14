@@ -11,7 +11,7 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   console.log('fetching posts');
   const response = await axios.get('http://localhost:4000/');
   console.log(response);
-  return response.posts
+  return response.data
 })
 
 const postsSlice = createSlice({

@@ -7,7 +7,8 @@ import {
 } from 'react-router-dom'
 
 import Navbar from './app/Navbar'
-
+import SignIn from './app/components/SignIn'
+import SignUp from './app/components/SignUp'
 import { PostsList } from './features/posts/PostsList'
 
 
@@ -26,6 +27,9 @@ function App() {
               </React.Fragment>
             )}
           />
+          <Route exact path="/signin/" component={SignIn} />
+          <Route exact path="/signup/" component={SignUp} />
+
           <Redirect to="/" />
         </Switch>
       </div>
