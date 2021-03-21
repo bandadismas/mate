@@ -3,18 +3,10 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-var isProduction = process.env.NODE_ENV === 'production'; 
-
-if(isProduction){
-    mongoose.connect(process.env.MONGODB_URI);
-} else {
-    mongoose.connect("mongodb://localhost:27017/mate", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-    mongoose.set("useCreateIndex", true);
-    mongoose.set('useFindAndModify', false);
-}
+mongoose.connect('mongodb+srv://mate-user:atlas-connect@cluster0.hdvzr.mongodb.net/mate?retryWrites=true&w=majority', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 const userRoutes = require('./routes/users');
 const postRoutes = require('./routes/posts');
