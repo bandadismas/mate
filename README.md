@@ -1,7 +1,7 @@
 # Mate
 Mate is a social networking site where users post their thoughts and opinions. Other users can like, dislike and/or comment on those posts.
 
-The project is made using the MERN stack.
+The project is made using the [MERN](https://www.mongodb.com/mern-stack) stack.
 
 ### Authentication Header:
 
