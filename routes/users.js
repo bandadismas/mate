@@ -8,12 +8,7 @@ const auth = require("../auth/auth");
 const secret = "SECRET"; 
 
 router.post("/signup", async (req, res) => {
-    console.log(req.body);
-
     const {email, password} = req.body;
-
-    console.log(email);
-    console.log(password);
 
     try {
         const user = await userModel.findOne({ email });
@@ -35,6 +30,7 @@ router.post("/signup", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
+    console.log(req.body)
     const { email, password } = req.body;
 
     try {

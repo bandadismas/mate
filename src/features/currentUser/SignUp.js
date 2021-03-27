@@ -40,20 +40,15 @@ export default function SignUp() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(mail);
-    console.log(pword);
 
     const user = {email:mail, password:pword}
-    console.log("now the user");
-
-    console.log(user);
 
     const headers = {
       "content-type": "application/json"
     }
 
     axios.post('http://localhost:4000/signup', 
-      {email:mail, password:pword}, {headers})
+      user, {headers})
       .then(response => console.log(response))
       .catch(error => console.log(error))
 

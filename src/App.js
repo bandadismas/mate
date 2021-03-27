@@ -7,8 +7,8 @@ import {
 } from 'react-router-dom'
 
 import Navbar from './app/Navbar'
-import SignIn from './app/components/SignIn'
-import SignUp from './app/components/SignUp'
+import SignIn from './features/currentUser/SignIn'
+import SignUp from './features/currentUser/SignUp'
 import { PostsList } from './features/posts/PostsList'
 
 
