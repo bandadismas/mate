@@ -50,6 +50,18 @@ router.post("/login", async (req, res) => {
     }
 });
 
+router.get("/users", async (req, res) => {
+    console.log('users path hit');
+    try {
+        const users = await userModel.find();
+        console.log(users);
+
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+});
+
 router.post("/userDetails/", auth, async (req, res) => {
     const {firstName, middleName, lastName, city, country} = req.body;
 
@@ -71,7 +83,7 @@ router.get("/userDetails/", auth, async (req, res) => {
     try {
         const userDetails = await userDetailsModel.find((user) => user === req.userId);
 
-        res.status(201).json(userDetails);
+        res.status(200).json(userDetails);
     } catch (error) {
         res.status(409).json({ message: error.message });
     }
