@@ -32,18 +32,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [mail, setEmail] = useState("");
+  const [pword, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
 
   const classes = useStyles();
 
   const handleSubmit = e => {
     e.preventDefault();
+    console.log(mail);
+    console.log(pword);
 
-    const user = {email:email, password:password}
+    const user = {email:mail, password:pword}
+    console.log("now the user");
 
-    axios.post('http://localhost:4000/signup', user)
+    console.log(user);
+
+    const headers = {
+      "content-type": "application/json"
+    }
+
+    axios.post('http://localhost:4000/signup', 
+      {email:mail, password:pword}, {headers})
       .then(response => console.log(response))
       .catch(error => console.log(error))
 
@@ -71,7 +81,7 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                value={email}
+                value={mail}
                 onChange={e => setEmail(e.target.value)}
               />
             </Grid>
@@ -85,7 +95,7 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                value={password}
+                value={pword}
                 onChange={e => setPassword(e.target.value)}
               />
             </Grid>
