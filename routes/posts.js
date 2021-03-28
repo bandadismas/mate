@@ -6,6 +6,8 @@ const postModel = require('../models/Post');
 const auth = require("../auth/auth");
 
 router.get("/", async (req, res) => { 
+    console.log('home route');
+
     try {
         const posts = await postModel.find();
                 
@@ -28,6 +30,8 @@ router.get("/getPost/:id", async (req, res) => {
 });
 
 router.post("/createPost", auth, async (req, res) => {
+    console.log('create post route');
+
     const {body} = req.body;
 
     const newPost = new postModel({ body, author: req.userId })
@@ -42,6 +46,8 @@ router.post("/createPost", auth, async (req, res) => {
 });
 
 router.patch("/editPost/:id", auth, async (req, res) => {
+    console.log('edit post route');
+
     const id = req.params.id;
     const {body} = req.body;
     
@@ -57,6 +63,8 @@ router.patch("/editPost/:id", auth, async (req, res) => {
 });
 
 router.delete("/deletePost/:id", auth, async (req, res) => {
+    console.log('delete post route');
+
     const id = req.params.id;
 
     try{
@@ -71,6 +79,8 @@ router.delete("/deletePost/:id", auth, async (req, res) => {
 });
 
 router.patch("/likePost/:id", auth, async (req, res) => {
+    console.log('like post route');
+
     const id = req.params.id;
 
     try {
@@ -103,6 +113,8 @@ router.patch("/likePost/:id", auth, async (req, res) => {
 });
 
 router.patch("/dislikePost/:id", auth, async (req, res) => {
+    console.log('dislike post route');
+
     const id = req.params.id;
 
     try {

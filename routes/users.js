@@ -8,6 +8,8 @@ const auth = require("../auth/auth");
 const secret = "SECRET"; 
 
 router.post("/signup", async (req, res) => {
+    console.log('signup route');
+
     const {email, password} = req.body;
 
     try {
@@ -30,6 +32,8 @@ router.post("/signup", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
+    console.log('login route');
+
     console.log(req.body)
     const { email, password } = req.body;
 
@@ -51,6 +55,8 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/users", async (req, res) => {
+    console.log('get all users route');
+
     console.log('users path hit');
     try {
         const users = await userModel.find();
@@ -63,6 +69,8 @@ router.get("/users", async (req, res) => {
 });
 
 router.post("/userDetails/", auth, async (req, res) => {
+    console.log('create user details route');
+
     const {firstName, middleName, lastName, city, country} = req.body;
 
     try {
@@ -80,6 +88,8 @@ router.post("/userDetails/", auth, async (req, res) => {
 });
 
 router.get("/userDetails/", auth, async (req, res) => {
+    console.log('get user details route');
+
     try {
         const userDetails = await userDetailsModel.find((user) => user === req.userId);
 

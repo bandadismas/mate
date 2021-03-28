@@ -53,11 +53,11 @@ export const PostExcerpt = ({post}) => {
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            R
+            <span>{<PostAuthor userId={post.author}></PostAuthor>}.substring(0,1)</span>
           </Avatar>
         }
         
-        title= {post.author}
+        title= {<PostAuthor userId={post.author}></PostAuthor>}
         subheader= {<TimeAgo timestamp={post.createdAt}/>}
       />
       <CardContent>

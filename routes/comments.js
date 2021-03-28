@@ -6,6 +6,7 @@ const commentModel = require('../models/Comment');
 const auth = require("../auth/auth");
 
 router.post("/comment/:id", auth, async (req, res) => {
+    console.log('comment route');
     const id = req.params.id;
     const {body} = req.body;
 
@@ -26,6 +27,8 @@ router.post("/comment/:id", auth, async (req, res) => {
 });
 
 router.patch("/editComment/:id", auth, async (req, res) => {
+    console.log('edit comment route');
+
     const id = req.params.id;
     const {body} = req.body;
     
@@ -41,6 +44,8 @@ router.patch("/editComment/:id", auth, async (req, res) => {
 });
 
 router.delete("/deleteComment/:id", auth, async (req, res) => {
+    console.log('delete comment route');
+
     const id = req.params.id;
 
     try{
@@ -55,6 +60,8 @@ router.delete("/deleteComment/:id", auth, async (req, res) => {
 });
 
 router.patch("/likeComment/:id", auth, async (req, res) => {
+    console.log('like comment route');
+
     const id = req.params.id;
 
     try {
@@ -87,6 +94,8 @@ router.patch("/likeComment/:id", auth, async (req, res) => {
 });
 
 router.patch("/dislikeComment/:id", auth, async (req, res) => {
+    console.log('dislike comment route');
+
     const id = req.params.id;
 
     try {

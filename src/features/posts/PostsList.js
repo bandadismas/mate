@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectAllPosts, fetchPosts } from './postsSlice'
-import { Link } from 'react-router-dom'
 
 import {PostExcerpt} from './PostExcerpt'
 
