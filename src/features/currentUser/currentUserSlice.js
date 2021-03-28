@@ -21,7 +21,18 @@ export const signin = createAsyncThunk(
 const currentUserSlice = createSlice({
     name: 'currentUser',
     initialState,
-    reducers: {},
+    reducers: {
+      signOut(state, action) {
+    console.log('In reducer');
+        
+        const user = state.currentUser.find();
+    console.log(user);
+
+        user.currentUser = {};
+        user.token = '';
+        user.error = null;
+      }
+    },
     extraReducers: {
       [signin.fulfilled]: (state, action) => {
         state.currentUser = action.payload.result
@@ -36,4 +47,6 @@ const currentUserSlice = createSlice({
   })
   
   export default currentUserSlice.reducer;
+
+  export const {signOut} = currentUserSlice.actions;
   

@@ -5,12 +5,25 @@ import {
   Button
 } from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
+import { unwrapResult } from '@reduxjs/toolkit'
+
+import {signOut} from '../features/currentUser/currentUserSlice'
 
 const TopNavbar = () => {
+  const dispatch = useDispatch();
   const user = useSelector(state => state.currentUser.currentUser);
+
   console.log(user); 
 
   const handleClick = (e) => {
+    console.log('Clicked');
+      dispatch(
+        signOut()
+      )
+      
+    console.log('results unwrapped');
+
+    console.log('Clicked out');
 
   }
 
@@ -18,7 +31,7 @@ const TopNavbar = () => {
     return (
       <Content>
         <Nav.Link className="button">
-        <Button onClick={handleClick}>Sign Out</Button>
+        <Button onClick={handleClick}>Sig Out</Button>
       </Nav.Link>
       </Content>
     );
