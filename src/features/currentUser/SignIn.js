@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useDispatch } from 'react-redux'
 import { unwrapResult } from '@reduxjs/toolkit'
+import { useHistory } from 'react-router-dom'
 
 import {signin} from './currentUserSlice'
 
@@ -41,6 +42,7 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const classes = useStyles();
 
@@ -54,6 +56,7 @@ export default function SignIn() {
 
       unwrapResult(resultAction)
       
+      history.push('/')
     } catch (err) {
       console.error('Failed to signin: ', err)
     } 

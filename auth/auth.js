@@ -5,7 +5,11 @@ const secret = 'SECRET';
 
 const auth = async (req, res, next) => {
   try {
+    console.log(req.headers);
+    console.log(req.body);
+
     const token = req.headers.authorization.split(" ")[1];
+    console.log(token);
            
     const decodedData = jwt.verify(token, secret);
 

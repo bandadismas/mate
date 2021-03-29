@@ -6,6 +6,7 @@ import {
 } from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
 import { unwrapResult } from '@reduxjs/toolkit'
+import { Link } from 'react-router-dom'
 
 import {signOut} from '../features/currentUser/currentUserSlice'
 
@@ -38,11 +39,11 @@ const TopNavbar = () => {
   } else {
       return (
         <Content>
-          <Nav.Link href="/signin" className="button">
-              <Button>Sign In</Button>
+          <Nav.Link className="button">
+              <Button><Link to="/signin" className="text-white">Sign In</Link></Button>
             </Nav.Link>
-            <Nav.Link href="/signup" className="button">
-                <Button>Sign Up</Button>
+            <Nav.Link className="button">
+                <Button><Link to="/signup" className="text-white">Sign Up</Link></Button>
             </Nav.Link>
         </Content>
       );
@@ -52,9 +53,9 @@ const TopNavbar = () => {
 const Content = (props) => {
   return (
     <Navbar bg="dark" variant="dark">
-    <Navbar.Brand href="#home">Mate</Navbar.Brand>
+    <Navbar.Brand ><Link to="/">Mate</Link></Navbar.Brand>
     <Nav className="mr-5">
-      <Nav.Link href="/">Home</Nav.Link>
+      <Nav.Link><Link to="/">Home</Link></Nav.Link>
     </Nav>
     <Nav className="ml-auto">
       {props.children}

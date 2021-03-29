@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,6 +37,8 @@ export default function SignUp() {
   const [pword, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
 
+  const history = useHistory()
+
   const classes = useStyles();
 
   const handleSubmit = e => {
@@ -52,7 +55,7 @@ export default function SignUp() {
       .then(response => console.log(response))
       .catch(error => console.log(error))
 
-    
+      history.push('/signin')
   }
 
   return (

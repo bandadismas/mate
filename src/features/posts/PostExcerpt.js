@@ -45,7 +45,7 @@ export const PostExcerpt = ({post}) => {
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            <span>{<PostAuthor userId={post.author}></PostAuthor>}.substring(0,1)</span>
+            <span>{(<PostAuthor userId={post.author}></PostAuthor>)}.substring(0,1)</span>
           </Avatar>
         }
         
@@ -58,6 +58,7 @@ export const PostExcerpt = ({post}) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
+        <button>👍</button>
       </CardActions>
     </Card>
   );

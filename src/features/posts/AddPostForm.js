@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { useDispatch, useSelector } from 'react-redux'
+import { unwrapResult } from '@reduxjs/toolkit'
 
+import {createPost, fetchPosts} from './postsSlice'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,8 +29,35 @@ const useStyles = makeStyles((theme) => ({
 
 export const AddPostForm = () => {
   const [post, setPost] = useState('')
+  const token = useSelector(state => state.currentUser.token);
+
+  const dispatch = useDispatch()
 
   const classes = useStyles();
+
+  let headers = {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+    }
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    console.log(token);
+
+    try {
+      const resultAction = await dispatch(
+        createPost({body:post, headers:headers})
+      )
+      console.log('results: ', resultAction)
+      unwrapResult(resultAction)
+      dispatch(fetchPosts())
+
+      setPost('');
+      
+    } catch (err) {
+      console.error('Failed to create post: ', err)
+    } 
+  }
 
   return (
     <Card className={classes.root}> 
@@ -51,6 +80,7 @@ export const AddPostForm = () => {
             color="primary"
             className={classes.submit}
             disabled={post===''?true:false}
+            onClick={handleSubmit}
           >
             Post
           </Button>

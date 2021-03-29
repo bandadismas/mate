@@ -19,8 +19,11 @@ export const PostsList = () => {
     }
   }, [postStatus, dispatch])
 
-  let content
+  // let content = posts.map(post => (
+  //       <PostExcerpt key={post._id} post={post} className="mb-5"/>));
 
+  let content
+  
   if (postStatus === 'loading') {
     content = <div>Loading...</div>
   } else if (postStatus === 'succeeded') {

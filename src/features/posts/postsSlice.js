@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios';
 
 const initialState = {
@@ -10,6 +11,19 @@ const initialState = {
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   console.log('fetching posts');
   const response = await axios.get('http://localhost:4000/');
+  console.log(response);
+  return response.data
+})
+
+export const createPost = createAsyncThunk('posts/createPost', async (data) => {
+  console.log('creating posts');
+
+  const {body, headers} = data;
+  console.log(headers);
+
+  const response = await axios.post(
+    'http://localhost:4000/createPost',
+    {body}, {headers});
   console.log(response);
   return response.data
 })
@@ -29,9 +43,12 @@ const postsSlice = createSlice({
       },
       [fetchPosts.rejected]: (state, action) => {
         state.status = 'failed'
-    console.log(action.error);
+        console.log(action.error);
 
         state.error = action.error.message
+      },
+      [createPost.fulfilled]: (state, action) => {
+        fetchPosts();
       }
     }   
   })
