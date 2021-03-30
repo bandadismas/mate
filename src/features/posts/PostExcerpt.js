@@ -10,6 +10,8 @@ import { red } from '@material-ui/core/colors';
 
 import {PostAuthor} from './PostAuthor'
 import {TimeAgo} from './TimeAgo'
+import {LikeButton} from './LikeButton'
+import {DislikeButton} from './DislikeButton'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,8 +59,12 @@ export const PostExcerpt = ({post}) => {
           {post.body}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing>
-        <button>👍</button>
+      <CardActions >
+        <div>
+        <span className="mr-5"><LikeButton post={post} /></span>
+        <span><DislikeButton post={post} /></span>
+
+        </div>
       </CardActions>
     </Card>
   );
