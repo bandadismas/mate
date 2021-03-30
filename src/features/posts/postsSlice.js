@@ -40,6 +40,19 @@ export const likePost = createAsyncThunk('posts/likePost', async (data) => {
   return response.data
 })
 
+export const dislikePost = createAsyncThunk('posts/dislikePost', async (data) => {
+  console.log('disliking post');
+
+  const {id, headers} = data;
+  console.log(headers);
+
+  const response = await axios.patch(
+    `http://localhost:4000/dislikePost/${id}`,
+     {body:"please"}, {headers});
+  console.log(response);
+  return response.data
+})
+
 const postsSlice = createSlice({
     name: 'posts',
     initialState,
@@ -64,6 +77,14 @@ const postsSlice = createSlice({
         // fetchPosts();
       },
       [likePost.fulfilled]: (state, action) => {
+        console.log(action.payload)
+        const { _id } = action.payload
+        const existingPost = state.posts.find(post => post._id === _id)
+        if (existingPost) {
+          existingPost.likes = action.payload.likes
+        }
+      },
+      [dislikePost.fulfilled]: (state, action) => {
         console.log(action.payload)
         const { _id } = action.payload
         const existingPost = state.posts.find(post => post._id === _id)

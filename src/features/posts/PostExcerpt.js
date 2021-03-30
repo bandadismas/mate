@@ -42,8 +42,6 @@ const useStyles = makeStyles((theme) => ({
 export const PostExcerpt = ({post}) => {
   const classes = useStyles();
 
-  const likes = post.likes.length;
-
   return (
     <Card className={classes.root}> 
       <CardHeader
@@ -64,7 +62,7 @@ export const PostExcerpt = ({post}) => {
       <CardActions >
         <div>
         <span className="mr-5"><LikeButton post={post} />{post.likes.length}</span>
-        <span><DislikeButton post={post} /></span>
+        <span><DislikeButton post={post} />{post.dislikes.length}</span>
 
         </div>
       </CardActions>

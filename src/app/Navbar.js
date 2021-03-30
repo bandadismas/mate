@@ -5,7 +5,6 @@ import {
   Button
 } from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
-import { unwrapResult } from '@reduxjs/toolkit'
 import { Link } from 'react-router-dom'
 
 import {signOut} from '../features/currentUser/currentUserSlice'
