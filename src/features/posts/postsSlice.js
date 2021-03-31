@@ -82,6 +82,7 @@ const postsSlice = createSlice({
         const existingPost = state.posts.find(post => post._id === _id)
         if (existingPost) {
           existingPost.likes = action.payload.likes
+          existingPost.dislikes = action.payload.dislikes
         }
       },
       [dislikePost.fulfilled]: (state, action) => {
@@ -89,6 +90,7 @@ const postsSlice = createSlice({
         const { _id } = action.payload
         const existingPost = state.posts.find(post => post._id === _id)
         if (existingPost) {
+          existingPost.dislikes = action.payload.dislikes
           existingPost.likes = action.payload.likes
         }
       }
