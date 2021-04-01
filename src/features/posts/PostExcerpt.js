@@ -8,10 +8,11 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 
-import {PostAuthor} from './PostAuthor'
-import {TimeAgo} from './TimeAgo'
-import {LikeButton} from './LikeButton'
-import {DislikeButton} from './DislikeButton'
+import {PostAuthor} from './PostAuthor';
+import {TimeAgo} from './TimeAgo';
+import {LikeButton} from './LikeButton';
+import {DislikeButton} from './DislikeButton';
+import {AddCommentForm} from '../comments/AddCommentForm';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,6 +43,10 @@ const useStyles = makeStyles((theme) => ({
 export const PostExcerpt = ({post}) => {
   const classes = useStyles();
 
+  const commentCount = post.comments.length;
+
+  const comment = commentCount===1?'Comment':'Comments';
+
   return (
     <Card className={classes.root}> 
       <CardHeader
@@ -63,9 +68,13 @@ export const PostExcerpt = ({post}) => {
         <div>
         <span className="mr-5"><LikeButton post={post} />{post.likes.length}</span>
         <span><DislikeButton post={post} />{post.dislikes.length}</span>
-
+        <span className="ml-auto ml-5">{commentCount} {comment}</span>
         </div>
+        <hr />
       </CardActions>
+      <div>
+          <AddCommentForm postId={post._id}/>
+        </div>
     </Card>
   );
 }

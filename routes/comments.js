@@ -6,7 +6,7 @@ const commentModel = require('../models/Comment');
 const auth = require("../auth/auth");
 
 router.post("/comment/:id", auth, async (req, res) => {
-    console.log('comment route');
+    console.log('create comment route');
     const id = req.params.id;
     const {body} = req.body;
 
@@ -20,7 +20,7 @@ router.post("/comment/:id", auth, async (req, res) => {
         post.comments.push(newComment._id);
         post.save()
 
-        res.status(201).json(newComment);
+        res.status(201).json({comment:newComment, post:post});
     } catch (error) {
         res.status(409).json({ message: error.message });
     }
