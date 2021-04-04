@@ -29,20 +29,20 @@ const useStyles = makeStyles((theme) => ({
 
 export const AddPostForm = () => {
   const [post, setPost] = useState('')
-  const token = useSelector(state => state.currentUser.token);
+  const user = useSelector(state => state.currentUser);
+  
 
   const dispatch = useDispatch()
 
   const classes = useStyles();
 
   let headers = {
-    'Authorization': `Bearer ${token}`,
+    'Authorization': `Bearer ${user.token}`,
     'Content-Type': 'application/json'
     }
 
   const handleSubmit = async e => {
     e.preventDefault();
-    console.log(token);
 
     try {
       const resultAction = await dispatch(
@@ -59,37 +59,43 @@ export const AddPostForm = () => {
     } 
   }
 
-  return (
-    <Card className={classes.root}> 
-      <CardContent>
-    <section>
-      <form className={classes.form}>
-      <TextField
-            id="postContent"
-            name="postContent"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            label="What's on your mind"
-            value={post}
-            onChange={e => setPost(e.target.value)}
-          />
-        <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            disabled={post===''?true:false}
-            onClick={handleSubmit}
-          >
-            Post
-          </Button>
-      </form>
-    </section>
-      </CardContent>
-      <CardActions disableSpacing>
-      </CardActions>
-    </Card>
-  );
+  if (Object.keys(user.currentUser).length!==0) {
+    return (
+      <Card className={classes.root}> 
+    <CardContent>
+  <section>
+    <form className={classes.form}>
+    <TextField
+          id="postContent"
+          name="postContent"
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          label="What's on your mind"
+          value={post}
+          onChange={e => setPost(e.target.value)}
+        />
+      <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+          disabled={post===''?true:false}
+          onClick={handleSubmit}
+        >
+          Post
+        </Button>
+    </form>
+  </section>
+    </CardContent>
+    <CardActions disableSpacing>
+    </CardActions>
+  </Card>
+    );
+  } else {
+      return (
+        null
+      );
+  }
 }
 

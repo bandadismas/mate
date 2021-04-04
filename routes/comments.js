@@ -26,6 +26,22 @@ router.post("/comment/:id", auth, async (req, res) => {
     }
 });
 
+router.get("/fetchComments/:postId", async (req, res) => {
+  console.log('fetch comments route');
+  const postId = req.params.postId;
+  console.log('post is: ', postId)
+
+  if (!mongoose.Types.ObjectId.isValid(postId)) return res.status(404).json({message:`No post with id: ${postId}`});
+
+  try {
+      const comments = await commentModel.find({post:postId})
+      console.log(comments);
+      res.status(200).json(comments);
+  } catch (error) {
+      res.status(409).json({ message: error.message });
+  }
+});
+
 router.patch("/editComment/:id", auth, async (req, res) => {
     console.log('edit comment route');
 

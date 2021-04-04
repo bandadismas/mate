@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { useDispatch, useSelector } from 'react-redux'
-import { unwrapResult } from '@reduxjs/toolkit'
+import { useDispatch, useSelector } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
 
-import {createComment} from './commentsSlice'
+import {createComment} from './commentsSlice';
+import {fetchPost} from '../posts/postsSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,6 +49,8 @@ export const AddCommentForm = ({postId}) => {
       unwrapResult(resultAction)
 
       setComment('');
+
+      dispatch(fetchPost({postId}))
       
     } catch (err) {
       console.error('Failed to create comment: ', err)

@@ -12,7 +12,14 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   const response = await axios.get('http://localhost:4000/');
   console.log(response);
   return response.data
-})
+});
+
+export const fetchPost = createAsyncThunk('posts/fetchPost', async (postId) => {
+  console.log('fetching posts');
+  const response = await axios.get(`http://localhost:4000/getPost/${postId}`);
+  console.log(response);
+  return response.data
+});
 
 export const createPost = createAsyncThunk('posts/createPost', async (data) => {
   console.log('creating posts');
@@ -72,6 +79,14 @@ const postsSlice = createSlice({
 
         state.error = action.error.message
       },
+      [fetchPost.fulfilled]: (state, action) => {
+        console.log(action.payload)
+        const { _id } = action.payload
+        let existingPost = state.posts.find(post => post._id === _id)
+        if (existingPost) {
+          existingPost = action.payload
+        }
+      },
       [createPost.fulfilled]: (state, action) => {
         state.posts.push(action.payload)
         // fetchPosts();
@@ -102,4 +117,4 @@ const postsSlice = createSlice({
   export const selectAllPosts = state => state.posts.posts
   
   export const selectPostById = (state, postId) =>
-    state.posts.posts.find(post => post.id === postId)
+    state.posts.posts.find(post => post._id === postId)

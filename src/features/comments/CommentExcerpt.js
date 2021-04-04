@@ -7,9 +7,10 @@ import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
+import { useSelector } from 'react-redux';
 
-import {PostAuthor} from './PostAuthor';
-import {TimeAgo} from './TimeAgo';
+import {PostAuthor} from '../posts/PostAuthor';
+import {TimeAgo} from '../posts/TimeAgo';
 import {LikeButton} from './LikeButton';
 import {DislikeButton} from './DislikeButton';
 
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const PostExcerpt = ({post}) => {
+export const CommentExcerpt = ({comment, post}) => {
   const classes = useStyles();
 
   return (
@@ -47,7 +48,7 @@ export const PostExcerpt = ({post}) => {
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            <span>{(<PostAuthor userId={post.author}></PostAuthor>)}.substring(0,1)</span>
+            {/* <span>{(<PostAuthor userId={post.author}></PostAuthor>)}.substring(0,1)</span> */}
           </Avatar>
         }
         
@@ -56,13 +57,13 @@ export const PostExcerpt = ({post}) => {
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          {post.body}
+          {comment.body}
         </Typography>
       </CardContent>
       <CardActions >
         <div>
-        <span className="mr-5"><LikeButton post={post} />{post.likes.length}</span>
-        <span><DislikeButton post={post} />{post.dislikes.length}</span>
+        {/* <span className="mr-5"><LikeButton post={post} />{post.likes.length}</span>
+        <span><DislikeButton post={post} />{post.dislikes.length}</span> */}
         </div>
         <hr />
       </CardActions>

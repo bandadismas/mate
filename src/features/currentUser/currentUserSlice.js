@@ -25,7 +25,7 @@ const currentUserSlice = createSlice({
       signOut(state, action) {
     console.log('In reducer');
         
-        const user = state.currentUser.find();
+        const user = state.currentUser;
     console.log(user);
 
         user.currentUser = {};
