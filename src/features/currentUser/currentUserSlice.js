@@ -23,14 +23,18 @@ const currentUserSlice = createSlice({
     initialState,
     reducers: {
       signOut(state, action) {
-    console.log('In reducer');
-        
+    console.log('In sign out reducer');
+        const {currentUser, token, error} = action.payload;
         const user = state.currentUser;
     console.log(user);
 
-        user.currentUser = {};
-        user.token = '';
-        user.error = null;
+        user.currentUser = currentUser;
+        user.token = token;
+        user.error = error;
+        console.log('done setting user');
+
+    console.log(user);
+
       }
     },
     extraReducers: {

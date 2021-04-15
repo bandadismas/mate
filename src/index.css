@@ -11,3 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.square {
+  background: rgb(7, 7, 7);
+  border: 10px solid #999;
+  float: left;
+  font-size: 240px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 340px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 340px;
+}

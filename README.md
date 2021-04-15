@@ -3,6 +3,8 @@ Mate is a social networking site where users post their thoughts and opinions. O
 
 The project is made using the [MERN](https://www.mongodb.com/mern-stack) stack.
 
+`Note: This site is actively under development`
+
 ### Authentication Header:
 
 `Authorization: Token jwt.token.here`

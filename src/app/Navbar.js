@@ -16,9 +16,12 @@ const TopNavbar = () => {
   console.log(user); 
 
   const handleClick = (e) => {
-    console.log('Clicked');
+    console.log('sign out clicked');
+    const currentUser = {};
+    const token = '';
+    const error = null;
       dispatch(
-        signOut()
+        signOut({currentUser, token, error})
       )
       
     console.log('results unwrapped');

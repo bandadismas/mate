@@ -3,6 +3,7 @@ import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import { useSelector, useDispatch } from 'react-redux'
 import { unwrapResult } from '@reduxjs/toolkit'
+import Button from '@material-ui/core/Button';
 
 import {likeComment} from './commentsSlice'
 
@@ -41,6 +42,10 @@ export const LikeButton = ({comment}) => {
     }
 
     return(
-        <button onClick={handleClick}>{content}</button>
+        <Button 
+            
+            onClick={handleClick}>
+                {content}
+        </Button>
     )
 }
