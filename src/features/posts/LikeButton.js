@@ -1,12 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import Tooltip from '@material-ui/core/Tooltip';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { useSelector, useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 
 import {likePost} from './postsSlice';
 
 export const LikeButton = ({post}) => {
+    const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
     const user = useSelector(state => state.currentUser);
 
@@ -27,8 +30,14 @@ export const LikeButton = ({post}) => {
               } catch (err) {
                 console.error('Failed to like post: ', err);
               } 
+        } else {
+            setOpen(true);
         }
     }
+
+    const handleTooltipClose = () => {
+        setOpen(false);
+      };
 
     let content;
 
@@ -41,6 +50,23 @@ export const LikeButton = ({post}) => {
     }
 
     return(
-        <button onClick={handleClick}>{content}</button>
+        <ClickAwayListener onClickAway={handleTooltipClose}>
+            <span className="mr-2">
+              <Tooltip
+                PopperProps={{
+                  disablePortal: true,
+                }}
+                onClose={handleTooltipClose}
+                open={open}
+                disableFocusListener
+                disableHoverListener
+                disableTouchListener
+                title="You must be signed in in order to like a post"
+              >
+                <button onClick={handleClick}>{content}</button>
+              </Tooltip>
+            </span>
+          </ClickAwayListener>
+        
     );
 }

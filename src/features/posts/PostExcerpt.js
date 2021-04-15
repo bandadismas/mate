@@ -7,6 +7,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
+import Grid from '@material-ui/core/Grid';
 
 import {PostAuthor} from './PostAuthor';
 import {TimeAgo} from './TimeAgo';
@@ -60,10 +61,13 @@ export const PostExcerpt = ({post}) => {
         </Typography>
       </CardContent>
       <CardActions >
-        <div>
-        <span className="mr-5"><LikeButton post={post} />{post.likes.length}</span>
-        <span><DislikeButton post={post} />{post.dislikes.length}</span>
-        </div>
+        <Grid container justify="start">
+        <Grid className="mr-5" item>
+          <span ><LikeButton post={post} />{post.likes.length}</span>
+          </Grid>
+        <Grid className="ml-5" item><DislikeButton post={post} />{post.dislikes.length}</Grid>
+        <Grid item className="ml-auto">Comments</Grid>
+        </Grid>
         <hr />
       </CardActions>
     </Card>
