@@ -7,12 +7,10 @@ import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
-import { useSelector } from 'react-redux';
 
 import {PostAuthor} from '../posts/PostAuthor';
 import {TimeAgo} from '../posts/TimeAgo';
 import {LikeButton} from './LikeButton';
-import {DislikeButton} from './DislikeButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -7,7 +7,7 @@ The project is made using the [MERN](https://www.mongodb.com/mern-stack) stack.
 
 ### Authentication Header:
 
-`Authorization: Token jwt.token.here`
+`Authorization: Bearer jwt.token.here`
 
 ## JSON Objects returned by API:
 

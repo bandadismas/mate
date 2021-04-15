@@ -5,20 +5,20 @@ const postModel = require('../models/Post');
 const commentModel = require('../models/Comment');
 const auth = require("../auth/auth");
 
-router.post("/comment/:id", auth, async (req, res) => {
+router.post("/comment/:postId", auth, async (req, res) => {
     console.log('create comment route');
-    const id = req.params.id;
+    const postId = req.params.postId;
     const {body} = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message:`No post with id: ${id}`});
+    if (!mongoose.Types.ObjectId.isValid(postId)) return res.status(404).json({message:`No post with id: ${postId}`});
 
-    const newComment = new commentModel({ body, author: req.userId, post: id })
+    const newComment = new commentModel({ body, author: req.userId, post: postId });
     try {
         await newComment.save();
 
-        const post = await postModel.findById(id);
+        const post = await postModel.findById(postId);
         post.comments.push(newComment._id);
-        post.save()
+        post.save();
 
         res.status(201).json({comment:newComment, post:post});
     } catch (error) {
@@ -29,12 +29,11 @@ router.post("/comment/:id", auth, async (req, res) => {
 router.get("/fetchComments/:postId", async (req, res) => {
   console.log('fetch comments route');
   const postId = req.params.postId;
-  console.log('post is: ', postId)
 
   if (!mongoose.Types.ObjectId.isValid(postId)) return res.status(404).json({message:`No post with id: ${postId}`});
 
   try {
-      const comments = await commentModel.find({post:postId})
+      const comments = await commentModel.find({post:postId});
       console.log(comments);
       res.status(200).json(comments);
   } catch (error) {

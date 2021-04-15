@@ -1,7 +1,7 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const initialState = []
+const initialState = [];
 
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
   const response = await axios.get('http://localhost:4000/users');
@@ -21,12 +21,12 @@ const usersSlice = createSlice({
       console.log(action.error);
     }
   }
-})
+});
 
-export default usersSlice.reducer
+export default usersSlice.reducer;
 
 
-export const selectAllUsers = state => state.users
+export const selectAllUsers = state => state.users;
 
 export const selectUserById = (state, userId) =>
-  state.users.find(user => user._id === userId)
+  state.users.find(user => user._id === userId);

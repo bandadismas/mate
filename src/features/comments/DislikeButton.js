@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 import ThumbDownOutlinedIcon from '@material-ui/icons/ThumbDownOutlined';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import { useSelector, useDispatch } from 'react-redux'
-import { unwrapResult } from '@reduxjs/toolkit'
+import { useSelector, useDispatch } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
 
-import {dislikeComment} from './commentsSlice'
+import {dislikeComment} from './commentsSlice';
 
 export const DislikeButton = ({comment}) => {
     const dispatch = useDispatch();
@@ -13,26 +13,26 @@ export const DislikeButton = ({comment}) => {
     let headers = {
         'Authorization': `Bearer ${user.token}`,
         'Content-Type': 'application/json'
-        }
+        };
 
     const handleClick = async () => {
         if (Object.keys(user.currentUser).length!==0) {
             try {
                 const resultAction = await dispatch(
                     dislikeComment({id:comment._id, headers:headers})
-                )
-                console.log('results: ', resultAction)
-                unwrapResult(resultAction)
+                );
+                console.log('results: ', resultAction);
+                unwrapResult(resultAction);
                 
               } catch (err) {
-                console.error('Failed to dislike comment: ', err)
+                console.error('Failed to dislike comment: ', err);
               } 
         }
     }
 
-    let content
+    let content;
 
-    const includes = comment.dislikes.includes(user.currentUser._id)
+    const includes = comment.dislikes.includes(user.currentUser._id);
 
     if (includes) {
         content = <ThumbDownIcon/>
@@ -42,6 +42,6 @@ export const DislikeButton = ({comment}) => {
 
     return(
         <button onClick={handleClick}>{content}</button>
-    )
+    );
 }
 

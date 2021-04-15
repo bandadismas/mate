@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { useDispatch, useSelector } from 'react-redux'
-import { unwrapResult } from '@reduxjs/toolkit'
+import { useDispatch, useSelector } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
 
-import {createPost, fetchPosts} from './postsSlice'
+import {createPost, fetchPosts} from './postsSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,18 +28,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const AddPostForm = () => {
-  const [post, setPost] = useState('')
+  const [post, setPost] = useState('');
   const user = useSelector(state => state.currentUser);
   
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const classes = useStyles();
 
   let headers = {
     'Authorization': `Bearer ${user.token}`,
     'Content-Type': 'application/json'
-    }
+    };
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -47,15 +47,15 @@ export const AddPostForm = () => {
     try {
       const resultAction = await dispatch(
         createPost({body:post, headers:headers})
-      )
-      console.log('results: ', resultAction)
-      unwrapResult(resultAction)
-      dispatch(fetchPosts())
+      );
+      console.log('results: ', resultAction);
+      unwrapResult(resultAction);
+      dispatch(fetchPosts());
 
       setPost('');
       
     } catch (err) {
-      console.error('Failed to create post: ', err)
+      console.error('Failed to create post: ', err);
     } 
   }
 

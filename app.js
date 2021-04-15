@@ -25,13 +25,6 @@ app.use('/', userRoutes);
 app.use('/', postRoutes);
 app.use('/', commentRoutes);
 
-
-// Handle errors.
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.json({ error: err });
-});
-
 app.listen(4000, () => {
   console.log('Server started on port 4000.')
 });

@@ -26,17 +26,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const AddCommentForm = ({postId}) => {
-  const [comment, setComment] = useState('')
+  const [comment, setComment] = useState('');
   const token = useSelector(state => state.currentUser.token);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const classes = useStyles();
 
   let headers = {
     'Authorization': `Bearer ${token}`,
     'Content-Type': 'application/json'
-    }
+    };
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -44,16 +44,16 @@ export const AddCommentForm = ({postId}) => {
     try {
       const resultAction = await dispatch(
         createComment({id:postId, comment:comment, headers:headers})
-      )
-      console.log('results: ', resultAction)
-      unwrapResult(resultAction)
+      );
+      console.log('results: ', resultAction);
+      unwrapResult(resultAction);
 
       setComment('');
 
-      dispatch(fetchPost({postId}))
+      dispatch(fetchPost({postId}));
       
     } catch (err) {
-      console.error('Failed to create comment: ', err)
+      console.error('Failed to create comment: ', err);
     } 
   }
 

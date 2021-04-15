@@ -11,11 +11,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { useDispatch } from 'react-redux'
-import { unwrapResult } from '@reduxjs/toolkit'
-import { useHistory } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { useHistory } from 'react-router-dom';
 
-import {signin} from './currentUserSlice'
+import {signin} from './currentUserSlice';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -41,8 +41,8 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const dispatch = useDispatch()
-  const history = useHistory()
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const classes = useStyles();
 
@@ -52,13 +52,13 @@ export default function SignIn() {
     try {
       const resultAction = await dispatch(
         signin({email: email, password: password })
-      )
+      );
 
-      unwrapResult(resultAction)
+      unwrapResult(resultAction);
       
-      history.push('/')
+      history.push('/');
     } catch (err) {
-      console.error('Failed to signin: ', err)
+      console.error('Failed to signin: ', err);
     } 
   }
 

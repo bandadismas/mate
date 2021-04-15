@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,25 +37,25 @@ export default function SignUp() {
   const [pword, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
 
-  const history = useHistory()
+  const history = useHistory();
 
   const classes = useStyles();
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    const user = {email:mail, password:pword}
+    const user = {email:mail, password:pword};
 
     const headers = {
       "content-type": "application/json"
-    }
+    };
 
     axios.post('http://localhost:4000/signup', 
       user, {headers})
       .then(response => console.log(response))
-      .catch(error => console.log(error))
+      .catch(error => console.log(error));
 
-      history.push('/signin')
+      history.push('/signin');
   }
 
   return (

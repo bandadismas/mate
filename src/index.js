@@ -7,9 +7,9 @@ import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { fetchUsers } from './features/users/usersSlice'
+import { fetchUsers } from './features/users/usersSlice';
 
-store.dispatch(fetchUsers())
+store.dispatch(fetchUsers());
 
 ReactDOM.render(
   <React.StrictMode>

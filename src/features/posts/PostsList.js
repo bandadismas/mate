@@ -1,28 +1,25 @@
-import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { selectAllPosts, fetchPosts } from './postsSlice'
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectAllPosts, fetchPosts } from './postsSlice';
 
-import {PostExcerpt} from './PostExcerpt'
+import {PostExcerpt} from './PostExcerpt';
 
 
 export const PostsList = () => {
-  const dispatch = useDispatch()
-  const posts = useSelector(selectAllPosts)
+  const dispatch = useDispatch();
+  const posts = useSelector(selectAllPosts);
 
-  const postStatus = useSelector(state => state.posts.status)
-  const error = useSelector(state => state.posts.error)
+  const postStatus = useSelector(state => state.posts.status);
+  const error = useSelector(state => state.posts.error);
 
 
   useEffect(() => {
     if (postStatus === 'idle') {
-      dispatch(fetchPosts())
+      dispatch(fetchPosts());
     }
-  }, [postStatus, dispatch])
+  }, [postStatus, dispatch]);
 
-  // let content = posts.map(post => (
-  //       <PostExcerpt key={post._id} post={post} className="mb-5"/>));
-
-  let content
+  let content;
   
   if (postStatus === 'loading') {
     content = <div>Loading...</div>
@@ -30,11 +27,11 @@ export const PostsList = () => {
     // Sort posts in reverse chronological order by datetime string
     const orderedPosts = posts
       .slice()
-      .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 
     content = orderedPosts.map(post => (
       <PostExcerpt key={post._id} post={post} className="mb-5"/>
-    ))
+    ));
   } else if (postStatus === 'failed') {
     content = <div>{error}</div>
   }
@@ -44,5 +41,5 @@ export const PostsList = () => {
       <h2>Posts</h2>
       {content}
     </section>
-  )
+  );
 }

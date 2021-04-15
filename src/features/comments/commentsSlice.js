@@ -16,7 +16,7 @@ export const createComment = createAsyncThunk('comments/createComment', async (d
     `http://localhost:4000/comment/${id}`,
      {body:comment}, {headers});
   console.log(response);
-  return response.data
+  return response.data;
 });
 
 export const likeComment = createAsyncThunk('comments/likeComment', async (data) => {
@@ -29,7 +29,7 @@ export const likeComment = createAsyncThunk('comments/likeComment', async (data)
     `http://localhost:4000/likeComment/${id}`,
      {body:"please"}, {headers});
   console.log(response);
-  return response.data
+  return response.data;
 });
 
 export const dislikeComment = createAsyncThunk('comments/dislikeComment', async (data) => {
@@ -42,7 +42,7 @@ export const dislikeComment = createAsyncThunk('comments/dislikeComment', async 
     `http://localhost:4000/dislikeComment/${id}`,
      {body:"please"}, {headers});
   console.log(response);
-  return response.data
+  return response.data;
 });
 
 export const fetchComments = createAsyncThunk('comments/fetchComments', async (data) => {
@@ -93,10 +93,6 @@ const commentsSlice = createSlice({
         }
       }
     }   
-  })
+  });
   
   export default commentsSlice.reducer;
-
-  // export const selectCommentByPost = (state, postId) =>
-  //     state.comments.comments.find(comment => comment.post === postId)
-  

@@ -3,11 +3,11 @@ import {
   Navbar,
   Nav,
   Button
-} from 'react-bootstrap'
-import { useSelector, useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+} from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import {signOut} from '../features/currentUser/currentUserSlice'
+import {signOut} from '../features/currentUser/currentUserSlice';
 
 const TopNavbar = () => {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const TopNavbar = () => {
     const error = null;
       dispatch(
         signOut({currentUser, token, error})
-      )
+      );
       
     console.log('results unwrapped');
 
@@ -63,7 +63,7 @@ const Content = (props) => {
       {props.children}
     </Nav>
   </Navbar>
-  )
+  );
 }
 
-export default TopNavbar
+export default TopNavbar;

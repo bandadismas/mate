@@ -34,7 +34,7 @@ router.post("/createPost", auth, async (req, res) => {
 
     const {body} = req.body;
 
-    const newPost = new postModel({ body, author: req.userId })
+    const newPost = new postModel({ body, author: req.userId });
 
     try {
         await newPost.save();
