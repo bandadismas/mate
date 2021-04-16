@@ -1,6 +1,7 @@
 import React from 'react';
 import ThumbDownOutlinedIcon from '@material-ui/icons/ThumbDownOutlined';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import Button from '@material-ui/core/Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 
@@ -41,7 +42,7 @@ export const DislikeButton = ({comment}) => {
     }
 
     return(
-        <button onClick={handleClick}>{content}</button>
+        <Button onClick={handleClick}>{content}</Button>
     );
 }
 
