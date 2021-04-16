@@ -37,7 +37,7 @@ export const PostsList = () => {
   }
 
   return (
-    <section className="posts-list">
+    <section>
       <h2>Posts</h2>
       {content}
     </section>

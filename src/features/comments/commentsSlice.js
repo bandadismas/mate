@@ -67,15 +67,18 @@ const commentsSlice = createSlice({
         state.comments.push(action.payload.comment);
       },
       [fetchComments.fulfilled]: (state, action) => {
-        // Add any fetched comments to the array
         console.log('payload: ',action.payload);
-       
+
+       // Add any fetched comments to the array
         state.comments = action.payload;
       },
       [likeComment.fulfilled]: (state, action) => {
         console.log(action.payload)
+
         const { _id } = action.payload
+
         const existingComment = state.comments.find(comment => comment._id === _id);
+
         if (existingComment) {
           existingComment.likes = action.payload.likes;
           existingComment.dislikes = action.payload.dislikes;
@@ -83,7 +86,9 @@ const commentsSlice = createSlice({
       },
       [dislikeComment.fulfilled]: (state, action) => {
         console.log(action.payload);
+
         const { _id } = action.payload;
+
         const existingComment = state.comments.find(comment => comment._id === _id);
         if (existingComment) {
           existingComment.likes = action.payload.likes;
@@ -94,6 +99,3 @@ const commentsSlice = createSlice({
   });
   
   export default commentsSlice.reducer;
-
-  export const selectCommentByPost = (state, postId) => 
-    state.comments.comments.find(comment => comment.post===postId);

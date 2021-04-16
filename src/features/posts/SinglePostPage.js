@@ -92,11 +92,13 @@ export const SinglePostPage = ({match}) => {
         <Grid item><DislikeButton post={post} />{post.dislikes.length}</Grid>
         <Grid item className="ml-auto">{comments} {commentLabel}</Grid>
         </Grid>
-        <hr />
-        <Grid container justify="start">
+      </CardActions>
+      <hr />
+      <div>
+        <Grid container>
             <CommentsList post={post} />
         </Grid>
-      </CardActions>
+        </div>
     </Card>
   );
 }

@@ -10,11 +10,11 @@ export const CommentsList = ({post}) => {
   
   console.log('comments: ', comments);
 
-  let content = null;
+  let content = <div>No comments</div>;
     
   if (comments) {
     content = comments.map(comment => (
-      <CommentExcerpt key={comment._id} comment={comment} post={post} className="mb-5"/>
+      <CommentExcerpt key={comment._id} comment={comment} post={post} />
     ));
     } else {
       content = <div>No comments</div>
@@ -22,9 +22,9 @@ export const CommentsList = ({post}) => {
   
 
   return (
-    <section>
-      <h4>Comments</h4>
+    <div className="mb-3">
+      <h4 className="mb-3">Comments</h4>
       {content}
-    </section>
+    </div>
   )
 }

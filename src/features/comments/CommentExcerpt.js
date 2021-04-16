@@ -7,6 +7,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
+import Grid from '@material-ui/core/Grid';
 
 import {PostAuthor} from '../posts/PostAuthor';
 import {TimeAgo} from '../posts/TimeAgo';
@@ -41,29 +42,27 @@ export const CommentExcerpt = ({comment, post}) => {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}> 
-      <CardHeader
+    <div>
+      <Grid>
+          <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            {/* <span>{(<PostAuthor userId={post.author}></PostAuthor>)}.substring(0,1)</span> */}
+            <span>{(<PostAuthor userId={post.author}></PostAuthor>)}.substring(0,1)</span>
           </Avatar>
         }
         
         title= {<PostAuthor userId={post.author}></PostAuthor>}
         subheader= {<TimeAgo timestamp={post.createdAt}/>}
       />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
+      </Grid>
+      
+        <Typography variant="body2" color="textSecondary" component="p" className="mt-4 ml-3">
           {comment.body}
         </Typography>
-      </CardContent>
-      <CardActions >
         <div>
         {/* <span className="mr-5"><LikeButton post={post} />{post.likes.length}</span>
         <span><DislikeButton post={post} />{post.dislikes.length}</span> */}
         </div>
-        <hr />
-      </CardActions>
-    </Card>
+      </div>
   );
 }
