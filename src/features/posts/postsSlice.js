@@ -14,8 +14,10 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   return response.data;
 });
 
-export const fetchPost = createAsyncThunk('posts/fetchPost', async (postId) => {
-  console.log('fetching posts');
+export const fetchPost = createAsyncThunk('posts/fetchPost', async (data) => {
+  console.log('fetching post');
+
+  const {postId} = data;
   const response = await axios.get(`http://localhost:4000/getPost/${postId}`);
   console.log(response);
   return response.data;
@@ -79,10 +81,12 @@ const postsSlice = createSlice({
       },
       [fetchPost.fulfilled]: (state, action) => {
         console.log(action.payload);
+
         const { _id } = action.payload;
+
         let existingPost = state.posts.find(post => post._id === _id);
         if (existingPost) {
-          existingPost = action.payload;
+          existingPost.comments = action.payload.comments;
         }
       },
       [createPost.fulfilled]: (state, action) => {

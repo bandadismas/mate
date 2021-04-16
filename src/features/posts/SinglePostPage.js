@@ -17,6 +17,7 @@ import {DislikeButton} from './DislikeButton';
 import {selectPostById} from './postsSlice'
 import {CommentsList} from '../comments/CommentsList'
 import {fetchComments} from '../comments/commentsSlice';
+import {AddCommentForm} from '../comments/AddCommentForm';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,6 +46,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const SinglePostPage = ({match}) => {
+  const user = useSelector(state => state.currentUser);
+
   const dispatch = useDispatch();
   
   const { postId } = match.params;
@@ -56,6 +59,15 @@ export const SinglePostPage = ({match}) => {
   useEffect(() => {
     dispatch(fetchComments({postId}));
 }, [dispatch, postId]);
+
+  let addComment = null;
+  if (Object.keys(user.currentUser).length!==0) {
+    addComment = <div>
+                    <Grid>
+                      <AddCommentForm postId={post._id} />
+                    </Grid>
+                  </div>
+  }
 
   if (!post) {
     return (
@@ -98,7 +110,8 @@ export const SinglePostPage = ({match}) => {
         <Grid container>
             <CommentsList post={post} />
         </Grid>
-        </div>
+      </div>
+      {addComment}
     </Card>
   );
 }

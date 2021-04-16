@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Avatar from '@material-ui/core/Avatar';
+import { red } from '@material-ui/core/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 
@@ -19,22 +22,29 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
+    display: "inline",
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(3, 1, 2),
+  },
+  avatar: {
+    backgroundColor: red[500],
+    display: "inline",
   },
 }));
 
 export const AddCommentForm = ({postId}) => {
   const [comment, setComment] = useState('');
-  const token = useSelector(state => state.currentUser.token);
+  const user = useSelector(state => state.currentUser);
 
   const dispatch = useDispatch();
 
   const classes = useStyles();
 
+  const email = (user.currentUser.email).substring(0,1);
+
   let headers = {
-    'Authorization': `Bearer ${token}`,
+    'Authorization': `Bearer ${user.token}`,
     'Content-Type': 'application/json'
     };
 
@@ -59,7 +69,12 @@ export const AddCommentForm = ({postId}) => {
 
   return (
     <section>
-      <form className={classes.form}>
+      <Grid container>
+        <Grid item>
+        <span><Avatar aria-label="recipe" className={classes.avatar}>
+            <span>{email}</span>
+          </Avatar></span>
+          <span><form className={classes.form} display="inline">
       <TextField
             id="postContent"
             name="postContent"
@@ -76,9 +91,11 @@ export const AddCommentForm = ({postId}) => {
             disabled={comment===''?true:false}
             onClick={handleSubmit}
           >
-            Comment
+            Post
           </Button>
-      </form>
+      </form></span>
+      </Grid>
+      </Grid>
     </section>
   );
 }
