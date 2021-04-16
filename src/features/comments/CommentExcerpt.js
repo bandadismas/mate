@@ -10,7 +10,6 @@ import { red } from '@material-ui/core/colors';
 
 import {PostAuthor} from '../posts/PostAuthor';
 import {TimeAgo} from '../posts/TimeAgo';
-import {LikeButton} from './LikeButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {

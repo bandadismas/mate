@@ -34,7 +34,7 @@ const TopNavbar = () => {
     return (
       <Content>
         <Nav.Link className="button">
-        <Button onClick={handleClick}>Sig Out</Button>
+        <Button onClick={handleClick}>Sign Out</Button>
       </Nav.Link>
       </Content>
     );

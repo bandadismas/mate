@@ -11,6 +11,7 @@ import SignIn from './features/currentUser/SignIn';
 import SignUp from './features/currentUser/SignUp';
 import { PostsList } from './features/posts/PostsList';
 import { AddPostForm } from './features/posts/AddPostForm';
+import { SinglePostPage } from './features/posts/SinglePostPage';
 
 function App() {
   return (
@@ -30,7 +31,8 @@ function App() {
           />
           <Route exact path="/signin/" component={SignIn} />
           <Route exact path="/signup/" component={SignUp} />
-
+          <Route exact path="/posts/:postId" component={SinglePostPage} />
+          
           <Redirect to="/" />
         </Switch>
       </div>

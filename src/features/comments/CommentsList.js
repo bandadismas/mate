@@ -1,23 +1,15 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 import {CommentExcerpt} from './CommentExcerpt';
-import {fetchComments} from './commentsSlice';
-
 
 export const CommentsList = ({post}) => {
 
   const comments = useSelector(state => state.comments.comments)
-  const dispatch = useDispatch();
-
-  const postId = post._id;
+    .filter(comment => comment.post===post._id)
+  
   console.log('comments: ', comments);
 
-  useEffect(() => {
-      dispatch(fetchComments({postId}));
-      console.log('comments: ', comments);
-  });
-  
   let content = null;
     
   if (comments) {

@@ -87,7 +87,6 @@ const postsSlice = createSlice({
       },
       [createPost.fulfilled]: (state, action) => {
         state.posts.push(action.payload);
-        // fetchPosts();
       },
       [likePost.fulfilled]: (state, action) => {
         console.log(action.payload);

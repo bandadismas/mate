@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import Tooltip from '@material-ui/core/Tooltip';
+import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { useSelector, useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
@@ -63,7 +64,7 @@ export const LikeButton = ({post}) => {
                 disableTouchListener
                 title="You must be signed in in order to like a post"
               >
-                <button onClick={handleClick}>{content}</button>
+                <Button onClick={handleClick}>{content}</Button>
               </Tooltip>
             </span>
           </ClickAwayListener>

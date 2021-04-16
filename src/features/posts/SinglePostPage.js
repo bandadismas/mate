@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -8,13 +8,15 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux'
 
 import {PostAuthor} from './PostAuthor';
 import {TimeAgo} from './TimeAgo';
 import {LikeButton} from './LikeButton';
 import {DislikeButton} from './DislikeButton';
+import {selectPostById} from './postsSlice'
+import {CommentsList} from '../comments/CommentsList'
+import {fetchComments} from '../comments/commentsSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,8 +44,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const PostExcerpt = ({post}) => {
+export const SinglePostPage = ({match}) => {
+  const dispatch = useDispatch();
+  
+  const { postId } = match.params;
+  
+  const post = useSelector(state => selectPostById(state, postId));
+
   const classes = useStyles();
+
+  useEffect(() => {
+    dispatch(fetchComments({postId}));
+}, [dispatch, postId]);
+
+  if (!post) {
+    return (
+      <section>
+        <h2>Post not found!</h2>
+      </section>
+    )
+  }
 
   const comments = post.comments.length;
   const commentLabel = comments===1?"Comment":"Comments";
@@ -65,19 +85,17 @@ export const PostExcerpt = ({post}) => {
         </Typography>
       </CardContent>
       <CardActions >
-        <Grid container justify="flex-start">
+        <Grid container justify="start">
           <Grid className="mr-3" item>
             <span ><LikeButton post={post} />{post.likes.length}</span>
           </Grid>
         <Grid item><DislikeButton post={post} />{post.dislikes.length}</Grid>
-        <Grid item>
-          <Button>
-            <Link to={`/posts/${post._id}`}>Comment</Link>
-          </Button>
-        </Grid>
         <Grid item className="ml-auto">{comments} {commentLabel}</Grid>
         </Grid>
         <hr />
+        <Grid container justify="start">
+            <CommentsList post={post} />
+        </Grid>
       </CardActions>
     </Card>
   );

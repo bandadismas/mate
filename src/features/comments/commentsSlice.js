@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const initialState = {
-  comments: [{hey:'Hello'}],
+  comments: [],
   status: 'idle',
   error: null
 }
@@ -49,7 +49,6 @@ export const fetchComments = createAsyncThunk('comments/fetchComments', async (d
   console.log('fetching comments...');
 
   const {postId} = data;
-  console.log(postId);
 
   const response = await axios.get(
     `http://localhost:4000/fetchComments/${postId}`,
@@ -69,30 +68,32 @@ const commentsSlice = createSlice({
       },
       [fetchComments.fulfilled]: (state, action) => {
         // Add any fetched comments to the array
-        console.log('payload: ',action.payload)
-
-        state.comments = state.comments.concat(action.payload)
-
+        console.log('payload: ',action.payload);
+       
+        state.comments = action.payload;
       },
       [likeComment.fulfilled]: (state, action) => {
         console.log(action.payload)
         const { _id } = action.payload
-        const existingComment = state.comments.find(comment => comment._id === _id)
+        const existingComment = state.comments.find(comment => comment._id === _id);
         if (existingComment) {
-          existingComment.likes = action.payload.likes
-          existingComment.dislikes = action.payload.dislikes
+          existingComment.likes = action.payload.likes;
+          existingComment.dislikes = action.payload.dislikes;
         }
       },
       [dislikeComment.fulfilled]: (state, action) => {
-        console.log(action.payload)
-        const { _id } = action.payload
-        const existingComment = state.comments.find(comment => comment._id === _id)
+        console.log(action.payload);
+        const { _id } = action.payload;
+        const existingComment = state.comments.find(comment => comment._id === _id);
         if (existingComment) {
-          existingComment.likes = action.payload.likes
-          existingComment.dislikes = action.payload.dislikes
+          existingComment.likes = action.payload.likes;
+          existingComment.dislikes = action.payload.dislikes;
         }
       }
     }   
   });
   
   export default commentsSlice.reducer;
+
+  export const selectCommentByPost = (state, postId) => 
+    state.comments.comments.find(comment => comment.post===postId);
