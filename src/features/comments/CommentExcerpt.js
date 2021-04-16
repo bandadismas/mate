@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import {PostAuthor} from '../posts/PostAuthor';
 import {TimeAgo} from '../posts/TimeAgo';
 import {LikeButton} from './LikeButton';
+import {DislikeButton} from './DislikeButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,7 +63,7 @@ export const CommentExcerpt = ({comment, post}) => {
         </Typography>
         <div>
         <span className="mr-5"><LikeButton comment={comment} />{comment.likes.length}</span>
-        {/* <span><DislikeButton post={post} />{post.dislikes.length}</span> */}
+        <span><DislikeButton comment={comment} />{comment.dislikes.length}</span>
         </div>
       </div>
   );
