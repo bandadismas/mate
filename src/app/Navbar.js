@@ -13,15 +13,13 @@ const TopNavbar = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.currentUser.currentUser);
 
-  console.log(user); 
+  console.log(user._id); 
 
   const handleClick = (e) => {
     console.log('sign out clicked');
-    const currentUser = {};
-    const token = '';
-    const error = null;
+    const id = user._id;
       dispatch(
-        signOut({currentUser, token, error})
+        signOut({id})
       );
       
     console.log('results unwrapped');

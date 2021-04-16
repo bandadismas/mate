@@ -50,7 +50,7 @@ export const AddPostForm = () => {
       );
       console.log('results: ', resultAction);
       unwrapResult(resultAction);
-      dispatch(fetchPosts());
+      // dispatch(fetchPosts());
 
       setPost('');
       

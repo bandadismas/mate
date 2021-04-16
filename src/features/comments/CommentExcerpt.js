@@ -54,7 +54,7 @@ export const CommentExcerpt = ({comment, post}) => {
         }
         
         title= {<PostAuthor userId={post.author}></PostAuthor>}
-        subheader= {<TimeAgo timestamp={post.createdAt}/>}
+        subheader= {<TimeAgo timestamp={comment.createdAt}/>}
       />
       </Grid>
       
