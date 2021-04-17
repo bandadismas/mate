@@ -10,6 +10,6 @@ export const PostAuthor = ({ userId, avatar }) => {
     return (<span>{author ? author.firstName.substring(0,1) : 'Un'}</span>);
   } 
 
-  return (<span>{author ? author.firstName : 'Unknown author'}</span>);
+  return (<span>{author ? `${author.firstName} ${author.lastName}`: 'Unknown author'}</span>);
   
 }

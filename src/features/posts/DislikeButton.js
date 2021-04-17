@@ -62,7 +62,7 @@ export const DislikeButton = ({post}) => {
                 disableFocusListener
                 disableHoverListener
                 disableTouchListener
-                title="You must be signed in in order to dislike a post"
+                title="You must be signed in order to dislike a post"
               >
                 <Button onClick={handleClick}>{content}</Button>
               </Tooltip>

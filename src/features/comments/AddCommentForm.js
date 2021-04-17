@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
 import { red } from '@material-ui/core/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
@@ -30,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
     display: "inline",
+    width: theme.spacing(7),
+    height: theme.spacing(7),
   },
 }));
 
@@ -40,8 +41,6 @@ export const AddCommentForm = ({postId}) => {
   const dispatch = useDispatch();
 
   const classes = useStyles();
-
-  const email = (user.currentUser.email).substring(0,1);
 
   let headers = {
     'Authorization': `Bearer ${user.token}`,
@@ -69,12 +68,9 @@ export const AddCommentForm = ({postId}) => {
 
   return (
     <section>
-      <Grid container>
+      <Grid container className="ml-3">
         <Grid item>
-        <span><Avatar aria-label="recipe" className={classes.avatar}>
-            <span>{email}</span>
-          </Avatar></span>
-          <span><form className={classes.form} display="inline">
+        <form className={classes.form} display="inline">
       <TextField
             id="postContent"
             name="postContent"
@@ -93,7 +89,7 @@ export const AddCommentForm = ({postId}) => {
           >
             Post
           </Button>
-      </form></span>
+      </form>
       </Grid>
       </Grid>
     </section>

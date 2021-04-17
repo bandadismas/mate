@@ -22,8 +22,8 @@ export const CommentsList = ({post}) => {
   
 
   return (
-    <div className="mb-3">
-      <h4 className="mb-3">Comments</h4>
+    <div className="mb-3 ml-3">
+      <h5 className="mb-3">Comments</h5>
       {content}
     </div>
   )
