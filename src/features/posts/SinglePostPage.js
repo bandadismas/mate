@@ -85,7 +85,7 @@ export const SinglePostPage = ({match}) => {
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            <span>{(<PostAuthor userId={post.author}></PostAuthor>)}.substring(0,1)</span>
+            <span><PostAuthor userId={post.author} avatar={true}></PostAuthor></span>
           </Avatar>
         }
         

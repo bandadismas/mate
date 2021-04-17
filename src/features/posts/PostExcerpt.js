@@ -52,7 +52,7 @@ export const PostExcerpt = ({post}) => {
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            <span>{(<PostAuthor userId={post.author}></PostAuthor>)}.substring(0,1)</span>
+            <span><PostAuthor userId={post.author} avatar={true}></PostAuthor></span>
           </Avatar>
         }
         
@@ -70,7 +70,7 @@ export const PostExcerpt = ({post}) => {
             <span ><LikeButton post={post} />{post.likes.length}</span>
           </Grid>
         <Grid item><DislikeButton post={post} />{post.dislikes.length}</Grid>
-        <Grid item>
+        <Grid item className="ml-4">
           <Button>
             <Link to={`/posts/${post._id}`}>Comment</Link>
           </Button>

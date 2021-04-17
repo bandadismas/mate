@@ -139,8 +139,8 @@ export default function SignUp() {
               />
             </Grid>
             <Grid container justify="flex-start">
-              <Grid item>
-                  Please re-enter password for verification
+              <Grid item className="ml-2">
+                  Please re-enter password for validation
               </Grid>
             </Grid>
             <Grid item xs={12}>

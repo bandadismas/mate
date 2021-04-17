@@ -49,11 +49,11 @@ export const CommentExcerpt = ({comment, post}) => {
           <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            <span>{(<PostAuthor userId={post.author}></PostAuthor>)}.substring(0,1)</span>
+            <span><PostAuthor userId={comment.author} avatar={true}></PostAuthor></span>
           </Avatar>
         }
         
-        title= {<PostAuthor userId={post.author}></PostAuthor>}
+        title= {<PostAuthor userId={comment.author}></PostAuthor>}
         subheader= {<TimeAgo timestamp={comment.createdAt}/>}
       />
       </Grid>
