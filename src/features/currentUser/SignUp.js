@@ -3,14 +3,14 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
+import { findAllByDisplayValue } from '@testing-library/dom';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,22 +33,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
-  const [mail, setEmail] = useState("");
-  const [pword, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+
 
   const history = useHistory();
 
   const classes = useStyles();
 
+  const headers = {
+    "content-type": "application/json"
+  };
+
+  const passwordsEqual= (password.normalize() === password2.normalize())?true:false;
+  const canSave =
+    ([email, password, password2, firstName, lastName].every(Boolean)) && passwordsEqual;
+
+  console.log('passwords equal: ',passwordsEqual);
+  console.log('canSave: ',canSave);
+
   const handleSubmit = e => {
     e.preventDefault();
 
-    const user = {email:mail, password:pword};
-
-    const headers = {
-      "content-type": "application/json"
-    };
+    const user = {
+      firstName:firstName,
+      lastName:lastName,
+      email:email, 
+      password:password};
 
     axios.post('http://localhost:4000/signup', 
       user, {headers})
@@ -70,6 +84,33 @@ export default function SignUp() {
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="fname"
+                name="firstName"
+                variant="outlined"
+                required
+                fullWidth
+                id="firstName"
+                label="First Name"
+                autoFocus
+                value={firstName}
+                onChange={e => setFirstName(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                name="lastName"
+                autoComplete="lname"
+                value={lastName}
+                onChange={e => setLastName(e.target.value)}
+              />
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -79,7 +120,7 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                value={mail}
+                value={email}
                 onChange={e => setEmail(e.target.value)}
               />
             </Grid>
@@ -93,7 +134,7 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                value={pword}
+                value={password}
                 onChange={e => setPassword(e.target.value)}
               />
             </Grid>
@@ -124,12 +165,13 @@ export default function SignUp() {
             color="primary"
             className={classes.submit}
             onClick={handleSubmit}
+            disabled={!canSave}
           >
             Sign Up
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="/signin" variant="body2">
+              <Link to="/signin" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>

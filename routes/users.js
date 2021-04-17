@@ -10,7 +10,7 @@ const secret = "SECRET";
 router.post("/signup", async (req, res) => {
     console.log('signup route');
 
-    const {email, password} = req.body;
+    const {firstName, lastName, email, password} = req.body;
 
     try {
         const user = await userModel.findOne({ email });
@@ -19,7 +19,7 @@ router.post("/signup", async (req, res) => {
     
         const hashedPassword = await bcrypt.hash(password, 10);
     
-        const result = await userModel.create({ email, password: hashedPassword });
+        const result = await userModel.create({firstName, lastName, email, password: hashedPassword });
     
         const token = jwt.sign( { email: result.email, id: result._id }, secret, { expiresIn: "1h" } );
     
