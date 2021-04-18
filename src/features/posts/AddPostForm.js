@@ -5,6 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 
@@ -24,17 +25,27 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    // position: 'relative',
   },
+  loader: {
+    position: 'absolute',
+    right: 5,
+  }
 }));
 
 export const AddPostForm = () => {
   const [post, setPost] = useState('');
+  const [addRequestStatus, setAddRequestStatus] = useState('idle')
+
   const user = useSelector(state => state.currentUser);
   
-
   const dispatch = useDispatch();
 
   const classes = useStyles();
+
+  const canSave = post!=='' && addRequestStatus==='idle';
+
+  const openLoader = addRequestStatus === 'pending' ? true : false;
 
   let headers = {
     'Authorization': `Bearer ${user.token}`,
@@ -45,6 +56,8 @@ export const AddPostForm = () => {
     e.preventDefault();
 
     try {
+      setAddRequestStatus('pending');
+
       const resultAction = await dispatch(
         createPost({body:post, headers:headers})
       );
@@ -55,7 +68,15 @@ export const AddPostForm = () => {
       
     } catch (err) {
       console.error('Failed to create post: ', err);
-    } 
+    } finally {
+      setAddRequestStatus('idle');
+    }
+  }
+
+  let loader = null;
+
+  if (openLoader) {
+    loader = <CircularProgress color="primary" size={25} className={classes.loader}/>
   }
 
   if (Object.keys(user.currentUser).length!==0) {
@@ -79,10 +100,11 @@ export const AddPostForm = () => {
           variant="contained"
           color="primary"
           className={classes.submit}
-          disabled={post===''?true:false}
+          disabled={!canSave}
           onClick={handleSubmit}
         >
           Post
+          {loader}
         </Button>
     </form>
   </section>
