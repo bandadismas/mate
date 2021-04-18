@@ -8,8 +8,14 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import axios from 'axios';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { useHistory, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
+
+
+import {signup} from './currentUserSlice';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -29,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }));
 
 export default function SignUp() {
@@ -38,23 +48,21 @@ export default function SignUp() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
+  const currentUserStatus = useSelector(state => state.currentUser.status);
 
   const history = useHistory();
 
-  const classes = useStyles();
+  const dispatch = useDispatch();
 
-  const headers = {
-    "content-type": "application/json"
-  };
+  const classes = useStyles();
 
   const passwordsEqual= (password.normalize() === password2.normalize())?true:false;
   const canSave =
     ([email, password, password2, firstName, lastName].every(Boolean)) && passwordsEqual;
 
-  console.log('passwords equal: ',passwordsEqual);
-  console.log('canSave: ',canSave);
+  const openBackDrop = currentUserStatus === 'loading' ? true : false;
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
     const user = {
@@ -63,12 +71,17 @@ export default function SignUp() {
       email:email, 
       password:password};
 
-    axios.post('http://localhost:4000/signup', 
-      user, {headers})
-      .then(response => console.log(response))
-      .catch(error => console.log(error));
-
-      history.push('/signin');
+      try {
+        const resultAction = await dispatch(
+          signup(user)
+        );
+  
+        unwrapResult(resultAction);
+        
+        history.push('/signin');
+      } catch (err) {
+        console.error('Failed to sign up: ', err);
+      } 
   }
 
   return (
@@ -176,6 +189,9 @@ export default function SignUp() {
             </Grid>
           </Grid>
         </form>
+        <Backdrop className={classes.backdrop} open={openBackDrop}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </div>
     </Container>
   );

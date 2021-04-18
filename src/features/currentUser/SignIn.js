@@ -47,7 +47,6 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
 
   const currentUserStatus = useSelector(state => state.currentUser.status);
-  const error = useSelector(state => state.currentUser.error);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -57,7 +56,7 @@ export default function SignIn() {
   const canSave = 
     [email, password].every(Boolean);
 
-  const open = currentUserStatus === 'loading' ? true : false;
+  const openBackDrop = currentUserStatus === 'loading' ? true : false;
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -135,9 +134,9 @@ export default function SignIn() {
             </Grid>
           </Grid>
         </form>
-        <Backdrop className={classes.backdrop} open={open}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
+        <Backdrop className={classes.backdrop} open={openBackDrop}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </div>
     </Container>
   );

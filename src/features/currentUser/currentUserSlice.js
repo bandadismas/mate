@@ -11,13 +11,20 @@ const initialState = {
 export const signin = createAsyncThunk(
     'currentUser/signin', 
     async user => {
-    console.log('Signining...');
+    console.log('Signing in...');
     const response = await axios.post('http://localhost:4000/login', user);
     console.log(response);
   return response.data;
 })
 
-
+export const signup = createAsyncThunk(
+  'currentUser/signup', 
+  async user => {
+  console.log('Signing up...');
+  const response = await axios.post('http://localhost:4000/signup', user);
+  console.log(response);
+return response.data;
+})
 
 const currentUserSlice = createSlice({
     name: 'currentUser',
@@ -40,6 +47,18 @@ const currentUserSlice = createSlice({
         state.token = action.payload.token;
       },
       [signin.rejected]: (state, action) => {
+        console.log(action.error);
+
+        state.status = 'failed';
+        state.error = action.error.message;
+      },
+      [signup.pending]: (state, action) => {
+        state.status = 'loading';
+      },
+      [signup.fulfilled]: (state, action) => {
+        state.status = 'success';
+      },
+      [signup.rejected]: (state, action) => {
         console.log(action.error);
 
         state.status = 'failed';
