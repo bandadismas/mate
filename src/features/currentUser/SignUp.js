@@ -10,7 +10,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import { useHistory, Link } from 'react-router-dom';
-import { findAllByDisplayValue } from '@testing-library/dom';
 
 const useStyles = makeStyles((theme) => ({
   paper: {

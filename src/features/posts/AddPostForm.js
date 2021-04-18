@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 
-import {createPost, fetchPosts} from './postsSlice';
+import {createPost} from './postsSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +50,6 @@ export const AddPostForm = () => {
       );
       console.log('results: ', resultAction);
       unwrapResult(resultAction);
-      // dispatch(fetchPosts());
 
       setPost('');
       
