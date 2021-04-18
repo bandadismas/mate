@@ -4,7 +4,8 @@ import axios from 'axios';
 const initialState = {
   currentUser: {},
   token: '',
-  error: null
+  error: null,
+  status: 'idle',
 };
 
 export const signin = createAsyncThunk(
@@ -31,6 +32,9 @@ const currentUserSlice = createSlice({
       }
     },
     extraReducers: {
+      [signin.pending]: (state, action) => {
+        state.status = 'loading';
+      },
       [signin.fulfilled]: (state, action) => {
         state.currentUser = action.payload.result;
         state.token = action.payload.token;
@@ -38,6 +42,7 @@ const currentUserSlice = createSlice({
       [signin.rejected]: (state, action) => {
         console.log(action.error);
 
+        state.status = 'failed';
         state.error = action.error.message;
       }
     }   

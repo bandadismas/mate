@@ -8,9 +8,11 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useHistory, Link } from 'react-router-dom';
 
@@ -34,11 +36,18 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
 }));
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const currentUserStatus = useSelector(state => state.currentUser.status);
+  const error = useSelector(state => state.currentUser.error);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -47,6 +56,8 @@ export default function SignIn() {
 
   const canSave = 
     [email, password].every(Boolean);
+
+  const open = currentUserStatus === 'loading' ? true : false;
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -124,6 +135,9 @@ export default function SignIn() {
             </Grid>
           </Grid>
         </form>
+        <Backdrop className={classes.backdrop} open={open}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       </div>
     </Container>
   );
