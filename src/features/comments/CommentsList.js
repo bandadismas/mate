@@ -10,14 +10,14 @@ export const CommentsList = ({post}) => {
   
   console.log('comments: ', comments);
 
-  let content = <div>No comments</div>;
+  let content;
     
   if (comments) {
     content = comments.map(comment => (
       <CommentExcerpt key={comment._id} comment={comment} post={post} />
     ));
     } else {
-      content = <div>No comments</div>
+      content = <div><p>No comments</p></div>;
     }
   
 

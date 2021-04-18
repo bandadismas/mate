@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { red } from '@material-ui/core/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
@@ -32,15 +33,25 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(7),
     height: theme.spacing(7),
   },
+  loader: {
+    position: 'absolute',
+    right: 20,
+  }
 }));
 
 export const AddCommentForm = ({postId}) => {
   const [comment, setComment] = useState('');
+  const [addRequestStatus, setAddRequestStatus] = useState('idle')
+
   const user = useSelector(state => state.currentUser);
 
   const dispatch = useDispatch();
 
   const classes = useStyles();
+
+  const canSave = comment!=='' && addRequestStatus==='idle';
+
+  const openLoader = addRequestStatus === 'pending' ? true : false;
 
   let headers = {
     'Authorization': `Bearer ${user.token}`,
@@ -51,6 +62,8 @@ export const AddCommentForm = ({postId}) => {
     e.preventDefault();
 
     try {
+      setAddRequestStatus('pending');
+
       const resultAction = await dispatch(
         createComment({id:postId, comment:comment, headers:headers})
       );
@@ -63,7 +76,15 @@ export const AddCommentForm = ({postId}) => {
       
     } catch (err) {
       console.error('Failed to create comment: ', err);
-    } 
+    } finally {
+      setAddRequestStatus('idle');
+    }
+  }
+
+  let loader = null;
+
+  if (openLoader) {
+    loader = <CircularProgress color="primary" size={25} className={classes.loader}/>
   }
 
   return (
@@ -84,10 +105,10 @@ export const AddCommentForm = ({postId}) => {
             variant="contained"
             color="primary"
             className={classes.submit}
-            disabled={comment===''?true:false}
+            disabled={!canSave}
             onClick={handleSubmit}
           >
-            Post
+            Post {loader}
           </Button>
       </form>
       </Grid>

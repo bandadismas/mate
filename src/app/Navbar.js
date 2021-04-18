@@ -31,10 +31,10 @@ const TopNavbar = () => {
   if (Object.keys(user).length!==0) {
     return (
       <Content>
-        <Nav.Link className="button">
-          <span>Welcome, {user.firstName}</span>
-        </Nav.Link>
-        <Nav.Link className="button">
+        <Navbar.Text className="mt-2">
+          Welcome, {user.firstName}
+        </Navbar.Text>
+        <Nav.Link>
           <Button onClick={handleClick}>Sign Out</Button>
         </Nav.Link>
       </Content>
