@@ -13,6 +13,9 @@ The project is made using the [MERN](https://www.mongodb.com/mern-stack) stack.
 
 Make sure the right content type like `Content-Type: application/json; charset=utf-8` is correctly returned.
 
+### Run the App
+Run ```npm install``` to install the node modules, ```npm start``` to start the client and ```npm run start-server``` to start the server.
+
 ## Endpoints:
 The endpoints are in three groups; users, posts, and comments.
 
