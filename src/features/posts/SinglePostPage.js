@@ -18,6 +18,7 @@ import {selectPostById} from './postsSlice'
 import {CommentsList} from '../comments/CommentsList'
 import {fetchComments} from '../comments/commentsSlice';
 import {AddCommentForm} from '../comments/AddCommentForm';
+import {PostActions} from './PostActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -88,7 +89,9 @@ export const SinglePostPage = ({match}) => {
             <span><PostAuthor userId={post.author} avatar={true}></PostAuthor></span>
           </Avatar>
         }
-        
+        action={
+          <PostActions post={post} />
+        }
         title= {<PostAuthor userId={post.author}></PostAuthor>}
         subheader= {<TimeAgo timestamp={post.createdAt}/>}
       />
