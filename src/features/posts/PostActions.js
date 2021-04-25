@@ -11,11 +11,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useHistory } from 'react-router-dom';
 
 import {deletePost} from './postsSlice';
+import {editPost} from './postsSlice';
 
 const useStyles = makeStyles((theme) => ({
   loader: {
@@ -24,8 +27,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const PostActions = ({post}) => {
+    const [postValue, setPostValue] = useState(post.body);
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDelDialog, setOpenDelDialog] = useState(false);
+    const [openEditDialog, setOpenEditDialog] = useState(false);
     const [addRequestStatus, setAddRequestStatus] = useState('idle');
 
     const user = useSelector(state => state.currentUser);
@@ -37,6 +42,8 @@ export const PostActions = ({post}) => {
     const classes = useStyles();
 
     const openLoader = addRequestStatus === 'pending' ? true : false;
+
+    const canSave = postValue!=='' && addRequestStatus==='idle';
 
     const headers = {
       'Authorization': `Bearer ${user.token}`,
@@ -71,6 +78,25 @@ export const PostActions = ({post}) => {
       }
     }
 
+    const handleEdit = async ()  => {
+      try {
+        setAddRequestStatus('pending');
+
+        const edited = await dispatch(
+          editPost({id:post._id, headers, postValue})
+        );
+
+        unwrapResult(edited);
+
+        setOpenEditDialog(false);
+        setAnchorEl(null);
+      } catch {
+        console.log('Error editing post');
+      } finally {
+        setAddRequestStatus('idle');
+      }
+    }
+
     let loader = null;
 
   if (openLoader) {
@@ -97,7 +123,7 @@ export const PostActions = ({post}) => {
           anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
           transformOrigin={{vertical: 'top', horizontal: 'center'}}
         >
-          <MenuItem onClick={handleClose}>Edit</MenuItem>
+          <MenuItem onClick={() => setOpenEditDialog(true)}>Edit</MenuItem>
           <MenuItem onClick={() => setOpenDelDialog(true)}>Delete</MenuItem>
         </Menu>
         <Dialog
@@ -122,6 +148,46 @@ export const PostActions = ({post}) => {
               autoFocus
               disabled={openLoader}>
               Delete
+              {loader}
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog
+          open={openEditDialog}
+          onClose={() => setOpenEditDialog(false)}
+          aria-labelledby="edit-dialog-title"
+          aria-describedby="edit-dialog-description"
+        >
+          <DialogTitle id="edit-dialog-title">{"Edit Comment"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="edit-dialog-description">
+                <Grid container className="ml-3">
+                    <Grid item>
+                        <form className={classes.form} display="inline">
+                            <TextField
+                                    id="postContent"
+                                    name="postContent"
+                                    variant="outlined"
+                                    margin="normal"
+                                    label="Comment"
+                                    value={postValue}
+                                    onChange={e => setPostValue(e.target.value)}
+                                />
+                        </form>
+                    </Grid>
+                </Grid>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenEditDialog(false)} color="primary">
+              Cancel
+            </Button>
+            <Button 
+              onClick={handleEdit} 
+              color="primary" 
+              autoFocus
+              disabled={!canSave}>
+              Edit
               {loader}
             </Button>
           </DialogActions>

@@ -52,7 +52,9 @@ router.patch("/editComment/:id", auth, async (req, res) => {
     try {
         if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message:`No comment with id: ${id}`});
 
-        const updatedComment = await commentModel.findByIdAndUpdate(id, {body:body});
+        const updatedComment = await commentModel.findByIdAndUpdate(id, {body:body}, {
+          new: true
+        });
 
         res.json(updatedComment);
     } catch (error) {

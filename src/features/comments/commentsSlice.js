@@ -135,7 +135,7 @@ const commentsSlice = createSlice({
 
         let existingComment = state.comments.find(comment => comment._id === _id);
         if (existingComment) {
-          existingComment = action.payload;
+          existingComment.body = action.payload.body;
         }
       }
     }   

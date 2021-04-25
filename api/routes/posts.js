@@ -54,8 +54,11 @@ router.patch("/editPost/:id", auth, async (req, res) => {
     try {
         if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message:`No post with id: ${id}`});
 
-        const updatedPost = await postModel.findByIdAndUpdate(id, {body:body});
+        const updatedPost = await postModel.findByIdAndUpdate(id, {body:body},{
+            new:true});
+        console.log(body);
 
+        console.log(updatedPost);
         res.json(updatedPost);
     } catch (error) {
         res.status(409).json({ message: error.message });

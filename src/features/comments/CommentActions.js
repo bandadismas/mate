@@ -15,7 +15,6 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { useHistory } from 'react-router-dom';
 
 import {deleteComment} from './commentsSlice';
 import {editComment} from './commentsSlice';
@@ -37,13 +36,11 @@ export const CommentActions = ({comment}) => {
 
     const dispatch = useDispatch();
 
-    const history = useHistory();
-
     const classes = useStyles();
 
     const openLoader = addRequestStatus === 'pending' ? true : false;
 
-    const canSave = comment!=='' && addRequestStatus==='idle';
+    const canSave = commentValue!=='' && addRequestStatus==='idle';
 
     const headers = {
       'Authorization': `Bearer ${user.token}`,
@@ -70,7 +67,6 @@ export const CommentActions = ({comment}) => {
 
         setOpenDelDialog(false);
         setAnchorEl(null);
-        history.push('/');
       } catch {
         console.log('Error deleting comment');
       } finally {
@@ -91,16 +87,17 @@ export const CommentActions = ({comment}) => {
           setOpenEditDialog(false);
           setAnchorEl(null);
         } catch {
-          console.log('Error deleting comment');
+          console.log('Error editing comment');
         } finally {
           setAddRequestStatus('idle');
         }
       }
+
     let loader = null;
 
-  if (openLoader) {
-    loader = <CircularProgress color="primary" size={25} className={classes.loader}/>
-  }
+    if (openLoader) {
+      loader = <CircularProgress color="primary" size={25} className={classes.loader}/>
+    }
 
     if (user.currentUser._id===comment.author) {
     return(
