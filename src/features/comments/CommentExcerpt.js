@@ -57,7 +57,6 @@ export const CommentExcerpt = ({comment, post}) => {
         subheader= {<TimeAgo timestamp={comment.createdAt}/>}
       />
       </Grid>
-      
         <Typography variant="body2" color="textSecondary" component="p" className="mt-4 ml-3">
           {comment.body}
         </Typography>

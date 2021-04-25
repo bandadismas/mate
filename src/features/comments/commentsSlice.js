@@ -70,6 +70,19 @@ export const deleteComment = createAsyncThunk('comments/deleteComment', async (d
   return response.data;
 });
 
+export const editComment = createAsyncThunk('comments/editComment', async (data) => {
+  console.log('editing comment');
+
+  const {id, headers, commentValue} = data;
+
+  const response = await axios.patch(
+    `http://localhost:4000/editComment/${id}`,
+    {body:commentValue}, {headers}
+     );
+  console.log(response);
+  return response.data;
+});
+
 const commentsSlice = createSlice({
     name: 'comments',
     initialState,
@@ -114,6 +127,16 @@ const commentsSlice = createSlice({
         const {id} = action.payload;
 
         state.comments = state.comments.filter(comment => comment._id !== id);
+      },
+      [editComment.fulfilled]: (state, action) => {
+        console.log(action.payload);
+
+        const { _id } = action.payload;
+
+        let existingComment = state.comments.find(comment => comment._id === _id);
+        if (existingComment) {
+          existingComment = action.payload;
+        }
       }
     }   
   });

@@ -46,6 +46,8 @@ router.patch("/editComment/:id", auth, async (req, res) => {
 
     const id = req.params.id;
     const {body} = req.body;
+
+    console.log('body: ', body);
     
     try {
         if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message:`No comment with id: ${id}`});
