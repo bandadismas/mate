@@ -58,7 +58,22 @@ export const dislikePost = createAsyncThunk('posts/dislikePost', async (data) =>
      {body:"please"}, {headers});
   console.log(response);
   return response.data;
-})
+});
+
+export const deletePost = createAsyncThunk('posts/deletePost', async (data) => {
+  console.log('deleting a post');
+
+  const {postId, headers} = data;
+
+  const response = await axios.delete(
+    `http://localhost:4000/deletePost/${postId}`,
+    {headers}
+  );
+
+  console.log(response);
+
+  return response.data;
+});
 
 const postsSlice = createSlice({
     name: 'posts',
@@ -109,6 +124,13 @@ const postsSlice = createSlice({
           existingPost.dislikes = action.payload.dislikes;
           existingPost.likes = action.payload.likes;
         }
+      },
+      [deletePost.fulfilled]: (state, action) => {
+        console.log('delete fulfilled ', action.payload);
+
+        const {id} = action.payload;
+
+        state.posts = state.posts.filter(post => post._id !== id);
       }
     }   
   })

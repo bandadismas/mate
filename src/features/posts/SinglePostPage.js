@@ -66,7 +66,7 @@ export const SinglePostPage = ({match}) => {
   if (Object.keys(user.currentUser).length!==0) {
     addComment = <div>
                     <Grid>
-                      <AddCommentForm postId={post._id} />
+                      <AddCommentForm postId={postId} />
                     </Grid>
                   </div>
   }

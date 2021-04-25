@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -9,10 +10,38 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { useDispatch, useSelector } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { useHistory } from 'react-router-dom';
+
+import {deletePost} from './postsSlice';
+
+const useStyles = makeStyles((theme) => ({
+  loader: {
+    position: 'absolute',
+  }
+}));
 
 export const PostActions = ({post}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openDelDialog, setOpenDelDialog] = useState(false);
+    const [addRequestStatus, setAddRequestStatus] = useState('idle');
+
+    const user = useSelector(state => state.currentUser);
+
+    const dispatch = useDispatch();
+
+    const history = useHistory();
+
+    const classes = useStyles();
+
+    const openLoader = addRequestStatus === 'pending' ? true : false;
+
+    const headers = {
+      'Authorization': `Bearer ${user.token}`,
+      'Content-Type': 'application/json'
+      };
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -21,7 +50,34 @@ export const PostActions = ({post}) => {
       const handleClose = () => {
         setAnchorEl(null);
       };
+    
+    const handleDelete = async ()  => {
+      try {
+        setAddRequestStatus('pending');
 
+        const deleted = await dispatch(
+          deletePost({postId:post._id, headers})
+        );
+
+        unwrapResult(deleted);
+
+        setOpenDelDialog(false);
+
+        history.push('/');
+      } catch {
+        console.log('Error deleting post');
+      } finally {
+        setAddRequestStatus('idle');
+      }
+    }
+
+    let loader = null;
+
+  if (openLoader) {
+    loader = <CircularProgress color="primary" size={25} className={classes.loader}/>
+  }
+
+    if (user.currentUser._id===post.author) {
     return(
         <React.Fragment>
         <IconButton 
@@ -60,11 +116,19 @@ export const PostActions = ({post}) => {
             <Button onClick={() => setOpenDelDialog(false)} color="primary">
               Cancel
             </Button>
-            <Button onClick={handleClose} color="primary" autoFocus>
+            <Button 
+              onClick={handleDelete} 
+              color="primary" 
+              autoFocus
+              disabled={openLoader}>
               Delete
+              {loader}
             </Button>
           </DialogActions>
         </Dialog> 
         </React.Fragment>
     );
+    }
+    
+  return (null);
 }

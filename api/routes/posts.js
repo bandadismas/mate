@@ -72,7 +72,7 @@ router.delete("/deletePost/:id", auth, async (req, res) => {
 
         await postModel.findByIdAndRemove(id);
 
-        res.json({ message: "Post deleted successfully." });
+        res.json({ message: "Post deleted successfully.", id });
     } catch (error) {
         res.status(409).json({ message: error.message });
     }

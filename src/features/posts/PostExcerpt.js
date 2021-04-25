@@ -15,6 +15,7 @@ import {PostAuthor} from './PostAuthor';
 import {TimeAgo} from './TimeAgo';
 import {LikeButton} from './LikeButton';
 import {DislikeButton} from './DislikeButton';
+import {PostActions} from './PostActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,6 +56,9 @@ export const PostExcerpt = ({post}) => {
           <Avatar aria-label="post-author" className={classes.avatar}>
             <span><PostAuthor userId={post.author} avatar={true}></PostAuthor></span>
           </Avatar>
+        }
+        action={
+          <PostActions post={post} />
         }
         title= {<PostAuthor userId={post.author}></PostAuthor>}
         subheader= {<TimeAgo timestamp={post.createdAt}/>}

@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const AddPostForm = () => {
   const [post, setPost] = useState('');
-  const [addRequestStatus, setAddRequestStatus] = useState('idle')
+  const [addRequestStatus, setAddRequestStatus] = useState('idle');
 
   const user = useSelector(state => state.currentUser);
   
