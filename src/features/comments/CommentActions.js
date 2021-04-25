@@ -43,7 +43,7 @@ export const CommentActions = ({comment}) => {
 
     const openLoader = addRequestStatus === 'pending' ? true : false;
 
-    const canSave = comment!=='' && addRequestStatus==='idle';
+    const canSave = commentValue!=='' && addRequestStatus==='idle';
 
     const headers = {
       'Authorization': `Bearer ${user.token}`,
@@ -91,16 +91,17 @@ export const CommentActions = ({comment}) => {
           setOpenEditDialog(false);
           setAnchorEl(null);
         } catch {
-          console.log('Error deleting comment');
+          console.log('Error editing comment');
         } finally {
           setAddRequestStatus('idle');
         }
       }
+
     let loader = null;
 
-  if (openLoader) {
-    loader = <CircularProgress color="primary" size={25} className={classes.loader}/>
-  }
+    if (openLoader) {
+      loader = <CircularProgress color="primary" size={25} className={classes.loader}/>
+    }
 
     if (user.currentUser._id===comment.author) {
     return(

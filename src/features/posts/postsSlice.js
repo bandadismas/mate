@@ -75,6 +75,19 @@ export const deletePost = createAsyncThunk('posts/deletePost', async (data) => {
   return response.data;
 });
 
+export const editPost = createAsyncThunk('posts/editPost', async (data) => {
+  console.log('editing post');
+
+  const {id, headers, postValue} = data;
+
+  const response = await axios.patch(
+    `http://localhost:4000/editPost/${id}`,
+    {body:postValue}, {headers}
+     );
+  console.log(response);
+  return response.data;
+});
+
 const postsSlice = createSlice({
     name: 'posts',
     initialState,
@@ -131,6 +144,14 @@ const postsSlice = createSlice({
         const {id} = action.payload;
 
         state.posts = state.posts.filter(post => post._id !== id);
+      },
+      [editPost.fulfilled]: (state, action) => {
+        console.log(action.payload);
+        const { _id } = action.payload;
+        let existingPost = state.posts.find(post => post._id === _id);
+        if (existingPost) {
+          existingPost.body = action.payload.body;
+        }
       }
     }   
   })
