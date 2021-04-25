@@ -51,11 +51,24 @@ export const fetchComments = createAsyncThunk('comments/fetchComments', async (d
   const {postId} = data;
 
   const response = await axios.get(
-    `http://localhost:4000/fetchComments/${postId}`,
+    `http://localhost:4000/fetchComments/${postId}`
      );
   console.log(response);
   return response.data;
-})
+});
+
+export const deleteComment = createAsyncThunk('comments/deleteComment', async (data) => {
+  console.log('deleting comment');
+
+  const {id, headers} = data;
+
+  const response = await axios.delete(
+    `http://localhost:4000/deleteComment/${id}`,
+    {headers}
+     );
+  console.log(response);
+  return response.data;
+});
 
 const commentsSlice = createSlice({
     name: 'comments',
@@ -94,6 +107,13 @@ const commentsSlice = createSlice({
           existingComment.likes = action.payload.likes;
           existingComment.dislikes = action.payload.dislikes;
         }
+      },
+      [deleteComment.fulfilled]: (state, action) => {
+        console.log('delete fulfilled ', action.payload);
+
+        const {id} = action.payload;
+
+        state.comments = state.comments.filter(comment => comment._id !== id);
       }
     }   
   });

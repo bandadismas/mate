@@ -10,6 +10,7 @@ import {PostAuthor} from '../posts/PostAuthor';
 import {TimeAgo} from '../posts/TimeAgo';
 import {LikeButton} from './LikeButton';
 import {DislikeButton} from './DislikeButton';
+import {CommentActions} from './CommentActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,7 +50,9 @@ export const CommentExcerpt = ({comment, post}) => {
             <span><PostAuthor userId={comment.author} avatar={true}></PostAuthor></span>
           </Avatar>
         }
-        
+        action={
+          <CommentActions comment={comment} />
+        }
         title= {<PostAuthor userId={comment.author}></PostAuthor>}
         subheader= {<TimeAgo timestamp={comment.createdAt}/>}
       />

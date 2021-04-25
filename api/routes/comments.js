@@ -64,11 +64,11 @@ router.delete("/deleteComment/:id", auth, async (req, res) => {
     const id = req.params.id;
 
     try{
-        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message:`No post with id: ${id}`});
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message:`No comment with id: ${id}`});
     
         await commentModel.findByIdAndRemove(id);
 
-        res.json({Message: "Comment deleted successfully"});
+        res.json({Message: "Comment deleted successfully", id});
     } catch (error) {
         res.status(409).json({ message: error.message });
     }
