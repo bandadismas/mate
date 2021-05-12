@@ -6,6 +6,7 @@ const initialState = {
   token: '',
   error: null,
   status: 'idle',
+  loggedIn: false
 };
 
 export const signin = createAsyncThunk(
@@ -33,9 +34,7 @@ const currentUserSlice = createSlice({
       signOut(state, action) {
         console.log('In sign out reducer');
 
-        const {id} = action.payload;
-
-        console.log('id: ', id)
+        state.loggedIn = false;
       }
     },
     extraReducers: {
@@ -45,6 +44,8 @@ const currentUserSlice = createSlice({
       [signin.fulfilled]: (state, action) => {
         state.currentUser = action.payload.result;
         state.token = action.payload.token;
+        state.loggedIn = true;
+        state.status = 'idle';
       },
       [signin.rejected]: (state, action) => {
         console.log(action.error);

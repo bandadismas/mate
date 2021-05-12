@@ -63,7 +63,7 @@ export const SinglePostPage = ({match}) => {
 }, [dispatch, postId]);
 
   let addComment = null;
-  if (Object.keys(user.currentUser).length!==0) {
+  if (user.loggedIn) {
     addComment = <div>
                     <Grid>
                       <AddCommentForm postId={postId} />

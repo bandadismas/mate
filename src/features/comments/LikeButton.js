@@ -22,10 +22,10 @@ export const LikeButton = ({comment}) => {
     
     let content;
 
-    const includes = comment.likes.includes(user.currentUser._id);
+    const includes = comment.likes.includes(user.currentUser._id) && user.loggedIn;
 
     const handleClick = async () => {
-        if (Object.keys(user.currentUser).length!==0) {
+        if (user.loggedIn) {
             try {
                 const resultAction = await dispatch(
                     likeComment({id:comment._id, headers:headers})

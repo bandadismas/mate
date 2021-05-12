@@ -11,15 +11,12 @@ import {signOut} from '../features/currentUser/currentUserSlice';
 
 const TopNavbar = () => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.currentUser.currentUser);
-
-  console.log(user._id); 
+  const user = useSelector(state => state.currentUser);
 
   const handleClick = (e) => {
     console.log('sign out clicked');
-    const id = user._id;
       dispatch(
-        signOut({id})
+        signOut()
       );
       
     console.log('results unwrapped');
@@ -28,11 +25,11 @@ const TopNavbar = () => {
 
   }
 
-  if (Object.keys(user).length!==0) {
+  if (user.loggedIn) {
     return (
       <Content>
         <Navbar.Text className="mt-2">
-          Welcome, {user.firstName}
+          Welcome, {user.currentUser.firstName}
         </Navbar.Text>
         <Nav.Link>
           <Button onClick={handleClick}>Sign Out</Button>

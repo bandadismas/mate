@@ -21,10 +21,10 @@ export const DislikeButton = ({comment}) => {
     
     let content;
     
-    const includes = comment.dislikes.includes(user.currentUser._id);
+    const includes = comment.dislikes.includes(user.currentUser._id) && user.loggedIn;
 
     const handleClick = async () => {
-        if (Object.keys(user.currentUser).length!==0) {
+        if (user.loggedIn) {
             try {
                 const resultAction = await dispatch(
                     dislikeComment({id:comment._id, headers:headers})

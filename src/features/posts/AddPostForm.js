@@ -79,7 +79,7 @@ export const AddPostForm = () => {
     loader = <CircularProgress color="primary" size={25} className={classes.loader}/>
   }
 
-  if (Object.keys(user.currentUser).length!==0) {
+  if (user.loggedIn) {
     return (
       <Card className={classes.root}> 
     <CardContent>

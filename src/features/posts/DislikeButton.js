@@ -20,7 +20,7 @@ export const DislikeButton = ({post}) => {
         };
 
     const handleClick = async () => {
-        if (Object.keys(user.currentUser).length!==0) {
+        if (user.loggedIn) {
             try {
                 const resultAction = await dispatch(
                     dislikePost({id:post._id, headers:headers})
@@ -42,7 +42,7 @@ export const DislikeButton = ({post}) => {
 
     let content;
 
-    const includes = post.dislikes.includes(user.currentUser._id);
+    const includes = post.dislikes.includes(user.currentUser._id) && user.loggedIn;
 
     if (includes) {
         content = <ThumbDownIcon/>
