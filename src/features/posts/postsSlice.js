@@ -1,11 +1,18 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { 
+  createSlice, 
+  createAsyncThunk, 
+  createEntityAdapter } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const initialState = {
-  posts: [],
+const postsAdapter = createEntityAdapter({
+  selectId: (post) => post._id,
+  sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt)
+});
+
+const initialState = postsAdapter.getInitialState({
   status: 'idle',
   error: null
-};
+});
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   console.log('fetching posts');
@@ -99,7 +106,7 @@ const postsSlice = createSlice({
       [fetchPosts.fulfilled]: (state, action) => {
         state.status = 'succeeded';
         // Add any fetched posts to the array
-        state.posts = state.posts.concat(action.payload)
+        postsAdapter.upsertMany(state, action.payload);
       },
       [fetchPosts.rejected]: (state, action) => {
         state.status = 'failed';
@@ -112,18 +119,16 @@ const postsSlice = createSlice({
 
         const { _id } = action.payload;
 
-        let existingPost = state.posts.find(post => post._id === _id);
+        let existingPost = state.entities[_id];
         if (existingPost) {
           existingPost.comments = action.payload.comments;
         }
       },
-      [createPost.fulfilled]: (state, action) => {
-        state.posts.push(action.payload);
-      },
+      [createPost.fulfilled]: postsAdapter.addOne,
       [likePost.fulfilled]: (state, action) => {
         console.log(action.payload);
         const { _id } = action.payload;
-        const existingPost = state.posts.find(post => post._id === _id);
+        const existingPost = state.entities[_id];
         if (existingPost) {
           existingPost.likes = action.payload.likes;
           existingPost.dislikes = action.payload.dislikes;
@@ -132,7 +137,7 @@ const postsSlice = createSlice({
       [dislikePost.fulfilled]: (state, action) => {
         console.log(action.payload);
         const { _id } = action.payload;
-        const existingPost = state.posts.find(post => post._id === _id);
+        const existingPost = state.entities[_id];
         if (existingPost) {
           existingPost.dislikes = action.payload.dislikes;
           existingPost.likes = action.payload.likes;
@@ -143,12 +148,12 @@ const postsSlice = createSlice({
 
         const {id} = action.payload;
 
-        state.posts = state.posts.filter(post => post._id !== id);
+        postsAdapter.removeOne(state, id);
       },
       [editPost.fulfilled]: (state, action) => {
         console.log(action.payload);
         const { _id } = action.payload;
-        let existingPost = state.posts.find(post => post._id === _id);
+        let existingPost = state.entities[_id];
         if (existingPost) {
           existingPost.body = action.payload.body;
         }
@@ -156,9 +161,11 @@ const postsSlice = createSlice({
     }   
   })
   
-  export default postsSlice.reducer;
-  
-  export const selectAllPosts = state => state.posts.posts
-  
-  export const selectPostById = (state, postId) =>
-    state.posts.posts.find(post => post._id === postId);
+export default postsSlice.reducer;
+
+export const {
+  selectAll: selectAllPosts,
+  selectById: selectPostById,
+  selectIds: selectPostIds
+  // Pass in a selector that returns the posts slice of state
+} = postsAdapter.getSelectors(state => state.posts)

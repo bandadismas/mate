@@ -15,7 +15,9 @@ import {PostAuthor} from './PostAuthor';
 import {TimeAgo} from './TimeAgo';
 import {LikeButton} from './LikeButton';
 import {DislikeButton} from './DislikeButton';
-import {PostActions} from './PostActions'
+import {PostActions} from './PostActions';
+import {selectPostById} from './postsSlice';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +45,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const PostExcerpt = ({post}) => {
+export const PostExcerpt = ({postId}) => {
+  const post = useSelector(state => selectPostById(state, postId));
   const classes = useStyles();
 
   const comments = post.comments.length;

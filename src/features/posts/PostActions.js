@@ -71,8 +71,8 @@ export const PostActions = ({post}) => {
         setOpenDelDialog(false);
 
         history.push('/');
-      } catch {
-        console.log('Error deleting post');
+      } catch (error) {
+        console.log('Error deleting post: ', error);
       } finally {
         setAddRequestStatus('idle');
       }
