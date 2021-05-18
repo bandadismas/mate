@@ -39,11 +39,11 @@ const TopNavbar = () => {
   } else {
       return (
         <Content>
-          <Nav.Link className="button">
-          <Link to="/signin"><Button>Sign In</Button></Link>
+            <Nav.Link className="button">
+              <Link to="/signin"><Button>Sign In</Button></Link>
             </Nav.Link>
             <Nav.Link className="button">
-                <Button><Link to="/signup" className="text-white">Sign Up</Link></Button>
+              <Link to="/signup" className="text-white"><Button>Sign Up</Button></Link>
             </Nav.Link>
         </Content>
       );
