@@ -1,7 +1,12 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { 
+  createSlice, 
+  createAsyncThunk, 
+  createEntityAdapter } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const initialState = [];
+const usersAdapter = createEntityAdapter({
+  selectId: (user) => user._id
+});
 
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
   const response = await axios.get('http://localhost:4000/users');
@@ -11,22 +16,17 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
 
 const usersSlice = createSlice({
   name: 'users',
-  initialState,
+  initialState: usersAdapter.getInitialState(),
   reducers: {},
   extraReducers: {
     [fetchUsers.fulfilled]: (state, action) => {
       return action.payload
     },
-    [fetchUsers.rejected]: (state, action) => {
-      console.log(action.error);
-    }
+    [fetchUsers.rejected]: usersAdapter.setAll
   }
 });
 
 export default usersSlice.reducer;
 
-
-export const selectAllUsers = state => state.users;
-
-export const selectUserById = (state, userId) =>
-  state.users.find(user => user._id === userId);
+export const { selectAll: selectAllUsers, selectById: selectUserById } =
+  usersAdapter.getSelectors(state => state.users)
