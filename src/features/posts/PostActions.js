@@ -154,7 +154,7 @@ const handleOpenDelDialog = () => {
             </Button>
             <Button 
               onClick={handleDelete} 
-              color="primary" 
+              color="secondary" 
               autoFocus
               disabled={openLoader}>
               Delete
