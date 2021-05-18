@@ -40,7 +40,7 @@ const TopNavbar = () => {
       return (
         <Content>
           <Nav.Link className="button">
-              <Button><Link to="/signin" className="text-white">Sign In</Link></Button>
+          <Link to="/signin"><Button>Sign In</Button></Link>
             </Nav.Link>
             <Nav.Link className="button">
                 <Button><Link to="/signup" className="text-white">Sign Up</Link></Button>
