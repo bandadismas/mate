@@ -96,6 +96,11 @@ export const PostActions = ({post}) => {
         setAddRequestStatus('idle');
       }
     }
+  
+  const handleOpenEditDialog = () => {
+    setOpenEditDialog(true);
+    setAnchorEl(null);
+  }
 
     let loader = null;
 
@@ -123,7 +128,7 @@ export const PostActions = ({post}) => {
           anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
           transformOrigin={{vertical: 'top', horizontal: 'center'}}
         >
-          <MenuItem onClick={() => setOpenEditDialog(true)}>Edit</MenuItem>
+          <MenuItem onClick={handleOpenEditDialog}>Edit</MenuItem>
           <MenuItem onClick={() => setOpenDelDialog(true)}>Delete</MenuItem>
         </Menu>
         <Dialog
