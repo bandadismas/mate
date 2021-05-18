@@ -2,11 +2,11 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import {CommentExcerpt} from './CommentExcerpt';
+import {selectCommentsByPost} from './commentsSlice';
 
 export const CommentsList = ({post}) => {
 
-  const comments = useSelector(state => state.comments.comments)
-    .filter(comment => comment.post===post._id)
+  const comments = useSelector(state => selectCommentsByPost(state, post._id));
   
   console.log('comments: ', comments);
 

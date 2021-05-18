@@ -1,11 +1,18 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { 
+  createSlice, 
+  createAsyncThunk,
+  createEntityAdapter,
+  createSelector } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const initialState = {
-  comments: [],
+const commentsAdapter = createEntityAdapter({
+  selectId: (comment) => comment._id
+});
+
+const initialState = commentsAdapter.getInitialState({
   status: 'idle',
   error: null
-}
+});
 
 export const createComment = createAsyncThunk('comments/createComment', async (data) => {
   console.log('commenting on a post');
@@ -88,22 +95,19 @@ const commentsSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-      [createComment.fulfilled]: (state, action) => {
-        console.log(action.payload)
-        state.comments.push(action.payload.comment);
-      },
+      [createComment.fulfilled]: commentsAdapter.addOne,
       [fetchComments.fulfilled]: (state, action) => {
         console.log('payload: ',action.payload);
 
        // Add any fetched comments to the array
-        state.comments = action.payload;
+       commentsAdapter.upsertMany(state, action.payload);
       },
       [likeComment.fulfilled]: (state, action) => {
         console.log(action.payload)
 
         const { _id } = action.payload
 
-        const existingComment = state.comments.find(comment => comment._id === _id);
+        const existingComment = state.entities[_id];
 
         if (existingComment) {
           existingComment.likes = action.payload.likes;
@@ -115,7 +119,7 @@ const commentsSlice = createSlice({
 
         const { _id } = action.payload;
 
-        const existingComment = state.comments.find(comment => comment._id === _id);
+        const existingComment = state.entities[_id];
         if (existingComment) {
           existingComment.likes = action.payload.likes;
           existingComment.dislikes = action.payload.dislikes;
@@ -126,14 +130,14 @@ const commentsSlice = createSlice({
 
         const {id} = action.payload;
 
-        state.comments = state.comments.filter(comment => comment._id !== id);
+        commentsAdapter.removeOne(state, id);
       },
       [editComment.fulfilled]: (state, action) => {
         console.log(action.payload);
 
         const { _id } = action.payload;
 
-        let existingComment = state.comments.find(comment => comment._id === _id);
+        let existingComment = state.entities[_id];
         if (existingComment) {
           existingComment.body = action.payload.body;
         }
@@ -141,4 +145,14 @@ const commentsSlice = createSlice({
     }   
   });
   
-  export default commentsSlice.reducer;
+export default commentsSlice.reducer;
+
+const {
+  selectAll: selectAllComments,
+  // Pass in a selector that returns the posts slice of state
+} = commentsAdapter.getSelectors(state => state.comments);
+
+export const selectCommentsByPost = createSelector(
+  [selectAllComments, (state, postId) => postId],
+  (comments, postId) => comments.filter(comment => comment.post === postId)
+);

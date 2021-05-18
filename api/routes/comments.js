@@ -20,7 +20,7 @@ router.post("/comment/:postId", auth, async (req, res) => {
         post.comments.push(newComment._id);
         post.save();
 
-        res.status(201).json({comment:newComment, post:post});
+        res.status(201).json(newComment);
     } catch (error) {
         res.status(409).json({ message: error.message });
     }
